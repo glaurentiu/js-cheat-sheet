@@ -1,4 +1,123 @@
+@import url('https://fonts.googleapis.com/css?family=Spectral+SC:700');
+@import '~highlight.js/styles/github.css';
+
+body {
+  background-color: #f9f9f9;
+  font-family: 'Spectral SC', serif;
+  margin: 0;
+}
+
+h1 {
+  color: dodgerblue;
+  text-align: center;
+}
+
+h3 {
+  text-align: center;
+  background-color: #ededed;
+  padding: 0;
+  margin-bottom: 1em;
+}
+
+h4 {
+  margin-top: 0.5em;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  list-style-type: none;
+  background-color: dodgerblue;
+}
+
+li {
+  flex: 1;
+  background-color: dodgerblue;
+  margin: 0 1em;
+  overflow: hidden;
+}
+
+a {
+  box-sizing: border-box;
+  text-decoration: none;
+  padding: .3em;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-weight: bold;
+  transition: background-color ease-in-out 200ms;
+}
+
+.active {
+  background-color: rgba(0,0,0, 0.25);
+}
+
+pre {
+  display: flex;
+  margin-top: 0;
+  margin-bottom: 0;
+  word-wrap: break-word;
+
+  code {
+    flex: 1;
+    line-height: 1.5em;
+    font-size: 14px;
+    min-height: 100%;
+    padding: 1em 1.2em;
+
+    &.hljs-line-numbers {
+      padding: 0;
+    }
+  }
+}
+
+
+/** Line numbers styles */
+.hljs {
+  margin: 0 1em;
+  padding: 10px;
+  border-radius: 4px;
+  transition: border ease 1s;
+}
+
+.hljs-ln {
+  padding: 8px 0;
+
+  tr {
+    &:first-child td {
+      padding-top: 8px !important;
+    }
+
+    &:last-child td {
+      padding-bottom: 8px !important;
+    }
+  }
+}
+
+/* for block of numbers */
+td.hljs-ln-numbers {
+  user-select: none;
+  text-align: center;
+  border-right: 1px solid gray;
+  vertical-align: top;
+  padding-right: 8px !important;
+  padding-left: 8px !important;
+}
+
+  /* for block of code */
+td.hljs-ln-code {
+  padding-left: 8px !important;
+}
+
+
+
 body {
   padding: 2em;
   font-family: -apple-system, BlinkMacSystemFont, “Segoe UI”, Roboto, Helvetica, Arial, sans-serif, “Apple Color Emoji”, “Segoe UI Emoji”, “Segoe UI Symbol”;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
