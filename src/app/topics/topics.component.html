@@ -1,8 +1,18 @@
-<mat-card class="example-card" *ngFor="let topic of topics | topicSearch :topicName">
+<!-- <mat-card class="example-card" *ngFor="let topic of topics | topicSearch :topicName">
   <mat-card-title>{{topic.name}}</mat-card-title>
   <mat-card-content>
     <pre><code [highlight]="topic.code" [languages]="['javascript']" [lineNumbers]="true"></code></pre>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
+
+<mat-expansion-panel hideToggle *ngFor="let topic of topics | topicSearch :topicName">
+  <mat-expansion-panel-header>
+    {{topic.name}}
+  </mat-expansion-panel-header>
+
+  <ng-template matExpansionPanelContent>
+    <pre><code [highlight]="topic.code" [languages]="['javascript']" [lineNumbers]="true"></code></pre>
+  </ng-template>
+</mat-expansion-panel>
 
 

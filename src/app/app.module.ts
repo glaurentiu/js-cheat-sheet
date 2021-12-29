@@ -5,6 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { HighlightModule, HIGHLIGHT_OPTIONS, HighlightOptions } from "ngx-highlightjs";
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,8 @@ import { TopicSearchPipe } from './topic-search.pipe';
     MatCardModule,
     MatDividerModule,
     HighlightModule,
+    MatExpansionModule
+
   ],
   providers: [
     {
