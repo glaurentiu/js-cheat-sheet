@@ -2209,7 +2209,7 @@ export class TopicsComponent implements OnInit {
     },
     {
       name: 'Classes > Nested classes',
-      code : `function SomeClass() {
+      code: `function SomeClass() {
 
         this.create = function () {
             return new NestedClass();
@@ -2219,105 +2219,5928 @@ export class TopicsComponent implements OnInit {
     }
 
     let someClass = new SomeClass();
-    let nested = someClass.create();`
+    let nested = someClass.create();`,
     },
     {
-      name:'Classes > Properties > Computed properties',
-      code: ``
-    },
-    {
-      name:'Classes > Properties > Lazy properties',
-      code: ``
-    },
-    {
-      name:'Classes > Properties > Read-Only properties',
-      code: ``
-    },
-    {
-      name:'Classes > Properties > Stored properties',
-      code: ``
-    },
-    {
-      name:'Classes > Properties > Type properties',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
-    {
-      name:'',
-      code: ``
-    },
+      name: 'Classes > Properties > Computed properties',
+      code: `//ECMAScript 6 feature
+      class Square {
+          constructor() {
+              this.side = 0;
+          }
 
+          get area() {
+              return this.side * this.side;
+          }
+
+          set area(value) {
+              this.side = Math.sqrt(value);
+          }
+      }
+
+      let square = new Square();
+      square.side = 2;
+      //square.area is 4
+      console.log("square.area is",
+          square.area);
+
+      square.area = 9;
+      //square.side is 3
+      console.log("square.side is",
+          square.side);
+
+
+      // * previous version *
+      function OldSquare() {
+          this.side = 0;
+      }
+
+      Object.defineProperty(OldSquare.prototype, "area", {
+              get: function () {
+                  return this.side * this.side;
+              },
+              set: function (value) {
+                  this.side = Math.sqrt(value);
+              }
+      });
+
+      var oldSquare = new OldSquare();
+      oldSquare.side = 2;
+      //oldSquare.area is 4
+      oldSquare.area = 16;
+      //oldSquare.side is 4
+      console.log(oldSquare.side + ", " + oldSquare.area);`,
+    },
+    {
+      name: 'Classes > Properties > Lazy properties',
+      code: `//ECMAScript 6 feature
+      class FilmsList {
+          constructor() {
+              //some long operation
+          }
+      }
+
+      class MediaPlayer {
+          get filmsList() {
+              return new FilmsList();
+          }
+      }
+
+      let player = new MediaPlayer();
+      //filmsList field not yet been created
+      //It will be created after call filmList property
+      let filmList = player.filmsList;
+      console.log(filmList);
+
+      // * previous version *
+      function OldFilmsList() {
+          //some long operation
+      }
+
+      function OldMediaPlayer() { }
+
+      Object.defineProperty(OldMediaPlayer.prototype, "filmList", {
+              get: function () {
+                  return new OldFilmsList();
+              }
+      });
+
+      var oldPlayer = new OldMediaPlayer();
+      //filmsList field not yet been created
+      //It will be created after call filmList property
+      var oldFilmList = oldPlayer.filmList;
+      console.log(oldFilmList);`,
+    },
+    {
+      name: 'Classes > Properties > Read-Only properties > Computed',
+      code: `//ECMAScript 6 feature
+      class Сircle {
+          constructor() {
+              this.radius = 0;
+          }
+
+          get area() {
+              return Math.PI * Math.pow(this.radius, 2);
+          }
+      }
+
+      let circle = new Сircle();
+      circle.radius = 2;
+      //circle.area is 12.56
+      console.log(circle.area);
+
+      // * previous version *
+      function OldСircle() {
+          this.radius = 0;
+      }
+
+      Object.defineProperty(OldСircle.prototype, "area", {
+              get: function () {
+                  return Math.PI * Math.pow(this.radius, 2);
+              }
+      });
+
+      let oldCircle = new OldСircle();
+      oldCircle.radius = 3;
+      //oldCircle.area is 28.27
+      console.log(oldCircle.area);`,
+    },
+    {
+      name: 'Classes > Properties > Read-Only properties > Stored',
+      code: `//ECMAScript 6 feature
+      class FilmList {
+          get count() {
+              return 10;
+          }
+      }
+
+      let filmList = new FilmList();
+      let count = filmList.count;
+      //count is 10
+
+      filmList.count = 5;
+      //filmList.count is 10
+
+      console.log(count);
+      console.log(filmList.count);
+
+
+      // * previous version *
+      function OldFilmList() { }
+
+      Object.defineProperty(OldFilmList.prototype, "count", {
+              value: 15,
+              writable: false
+
+      });
+
+      let oldFilmList = new OldFilmList();
+      let oldCount = oldFilmList.count;
+      //oldCount is 15
+
+      oldFilmList.count = 5;
+      //oldFilmList.count is 15
+
+      console.log(oldCount);
+      console.log(oldFilmList.count);`,
+    },
+    {
+      name: 'Classes > Properties > Stored properties',
+      code: `//ECMAScript 6 feature
+      class Point {
+          constructor() {
+              this.x = 0;
+              this.y = 0;
+          }
+      }
+
+      let point = new Point();
+      //x and y is 0
+      point.x = 3;
+      point.y = 7;
+      console.log(point.x + ", " + point.y);
+
+      // * previous version *
+      function OldPoint() {
+          this.x = 0;
+          this.y = 0;
+      }
+
+      var oldPoint = new OldPoint();
+      //x and y is 0
+      oldPoint.x = 2;
+      oldPoint.y = 5;
+      console.log(oldPoint.x + ", " + oldPoint.y);`,
+    },
+    {
+      name: 'Classes > Properties > Type properties',
+      code: `//ECMAScript 6 feature
+      class Lesson {
+          constructor() {
+              if (Lesson.lessonsCount == undefined) {
+                  Lesson.lessonsCount = 0;
+              }
+              Lesson.lessonsCount++;
+          }
+      }
+
+      let lesson1 = new Lesson();
+      //Lesson.LessonsCount is 1
+      let lesson2 = new Lesson();
+      //Lesson.LessonsCount is 2
+      console.log("Lesson.lessonsCount is",
+          Lesson.lessonsCount);
+
+      // * previous version *
+      function OldLesson() {
+          if (OldLesson.lessonsCount == undefined) {
+              OldLesson.lessonsCount = 0;
+          }
+          OldLesson.lessonsCount++;
+      }
+
+      let oldLesson1 = new OldLesson();
+      //OldLesson.LessonsCount is 1
+      let oldLesson2 = new OldLesson();
+      //OldLesson.LessonsCount is 2
+      console.log(OldLesson.lessonsCount);`,
+    },
+    {
+      name: 'Classes > Type members',
+      code: `//ECMAScript 6 feature
+      class Settings {
+          //type constant (readonly field)
+          static get maxConnections() {
+              return 3;
+          }
+      }
+
+      let max = Settings.maxConnections;
+      //max is 3
+      console.log(max);
+
+      // * previous version *
+      function Config() {}
+
+      //type fields
+      Config.Host = "10.0.0.1";
+      Config.Port = 0;
+
+      //type method
+      Config.getConnection = function() {
+          return Config.Host + ":" + Config.Port;
+      }
+
+      Config.Port = 52;
+      var connection = Config.getConnection();
+      //connection is "10.0.0.1:52"
+      console.log(connection);
+
+      Config.Host = "10.0.0.3";
+      connection = Config.getConnection();
+      //connection is "10.0.0.3:52"
+      console.log(connection)`,
+    },
+    {
+      name: 'Conditional statements > if/else > Complex conditions',
+      code: `let A = 3;
+      let B = 5;
+      let C = 7;
+      if (C >= A && C >= B) {
+          console.log("nothing is larger than C.");
+      }
+      if (!(A >= B || A >= C)) {
+          console.log("A is the smallest");
+      }`,
+    },
+    {
+      name: 'Conditional statements > if/else > Is not valid example',
+      code: `if latitude === 0 //Error: ( expected
+      {
+          location = "Equator";
+      }`,
+    },
+    {
+      name: 'Conditional statements > if/else > Ternary operator',
+      code: `let n = -42;
+      let classify = (n > 0) ?
+          "positive" : "negative";
+      //classify is "negative"
+
+      console.log(classify);`,
+    },
+    {
+      name: 'Conditional statements > if/else > Valid example',
+      code: `let latitude = getLatitude();
+      let location = "";
+
+      if (latitude === 0) {
+          location = "Equator";
+      } else if (latitude === 90) {
+          location = "north Pole";
+      } else if (latitude === -90) {
+          location = "south Pole";
+      } else {
+          location = "not at the Equator or Pole";
+      }
+
+      function getLatitude() {
+          return Math.floor(
+              (Math.random() * 180) + 1) -90;
+      }
+
+      console.log(latitude);
+      console.log(location);`,
+    },
+    {
+      name: 'Conditional statements > if/else > Valid example',
+      code: `let latitude = getLatitude();
+      let location = "";
+
+      if (latitude === 0)
+          location = "Equator";
+      else if (latitude === 90)
+          location = "north Pole";
+      else if (latitude === -90)
+          location = "south Pole";
+      else
+          location = "not at the Equator or Pole";
+
+      function getLatitude() {
+          return Math.floor(
+              (Math.random() * 180) + 1) -90;
+      }
+
+      console.log(latitude);
+      console.log(location)`,
+    },
+    {
+      name: 'Conditional statements > switch/case > Different types of values',
+      code: `let e = "3*3";
+      switch (e) {
+          case "3 + 3":
+              console.log("result = 6");
+              break;
+          case "3 - 3":
+              console.log("result = 0");
+              break;
+          case "3*3":
+              console.log("result = 9");
+              break;
+          case "3/3":
+              console.log("result = 1");
+              break;
+      }`,
+    },
+    {
+      name: 'Conditional statements > switch/case > Simple conditions',
+      code: `let str = "";
+      let monitorInchSize = 24;
+      switch (monitorInchSize) {
+          case 15:
+              str = "too small";
+              break;
+          case 16: case 17: case 18:
+              str = "good for the past decade";
+              break;
+          case 19: case 20: case 21:
+          case 22: case 23:
+              str = "for office work";
+              break;
+          case 24: case 25: case 26:
+          case 27:
+              str = "great choice";
+              break;
+          default:
+              str = "";
+              break;
+      }
+      //str is "great choice"
+      console.log(str);`,
+    },
+    {
+      name: 'Conditional statements > switch/case > Without the operator "break" ',
+      code: `let firstNumber = "1";
+      let numberList = "";
+      switch (firstNumber) {
+          case "1":
+              numberList = "1";
+          case "2":
+              numberList += "-2";
+          case "3":
+              numberList += "-3";
+      }
+      //numberList = "1-2-3"
+
+      console.log(numberList);`,
+    },
+    {
+      name: 'Intrerruption of a control flow > "break" statement ',
+      code: `let numbers = [2, 3, 5, 7, 11, 13, 17, 19];
+      let str = "";
+      for (let i = 0; i < numbers.length; i++) {
+          if (numbers[i] > 10)
+              break;
+          str += (str === "" ? "" : "-") + numbers[i];
+      }
+      //str is "2-3-5-7"
+      console.log(str);`,
+    },
+    {
+      name: 'Intrerruption of a control flow > "continue" statement ',
+      code: `let numbers = [2, 3, 5, 7, 11, 13, 17, 19];
+      let str = "";
+      for (let i = 0; i < numbers.length; i++) {
+          if (i % 2 === 1)
+              continue;
+          str += (str === "" ? "" : "-") + numbers[i];
+      }
+      //str is "2-5-11-17"
+      console.log(str);`,
+    },
+    {
+      name: 'Intrerruption of a control flow > with "return" value ',
+      code: `function containNumber(numbers, number) {
+        for (let i in numbers) {
+            if (numbers.hasOwnProperty(i)) {
+                if (numbers[i] === number) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    let numbers = [1, 2, 3];
+    let isContain2 = containNumber(numbers, 2);
+    //isContain2 is true
+
+    let isContain4 = containNumber(numbers, 4);
+    //isContain4 is false
+
+    console.log(isContain2);
+    console.log(isContain4);`,
+    },
+    {
+      name: 'Intrerruption of a control flow > without any "return" value ',
+      code: `function printSomeData(printAll) {
+        printMainData();
+        if (!printAll)
+            return;
+        printOtherData();
+    }
+
+    function printMainData() {
+        console.log("printMainData");
+    }
+
+    function printOtherData() {
+        console.log("printOtherData");
+    }
+
+    printSomeData(true);`,
+    },
+    {
+      name: 'Intrerruption of a control flow > Labeled statement ',
+      code: `let firstMatchValue = -1;
+      let array1 = [1, 2, 3];
+      let array2 = [2, 3, 4];
+
+      firstLoop: for (let i in array1) {
+          for (let n in array2) {
+              if (array1[i] === array2[n]) {
+                  firstMatchValue = array1[i];
+                  break firstLoop;
+              }
+          }
+      }
+      //firstMatchValue is 2
+      console.log(firstMatchValue);`,
+    },
+    {
+      name: 'Loops > do-while loop',
+      code: `let i = 7;
+      let f7 = 1;
+
+      do {
+          f7 *= i;
+          i--;
+      } while (i > 1);
+      //f7 is 5040
+
+      console.log(f7);`,
+    },
+    {
+      name: 'Loops > for loop',
+      code: `let sum10 = 0;
+      for (let i = 1; i <= 10; i++) {
+          sum10 += i;
+      }
+      //sum10 is 55
+
+      console.log(sum10);`,
+    },
+    {
+      name: 'Loops > for-in loop',
+      code: `let numbers = [2, 3, 5, 7, 11, 13, 17, 19];
+      let sum = 0;
+      for (let i in numbers) {
+          if (numbers.hasOwnProperty(i)) {
+              sum += numbers[i];
+          }
+      }
+      //sum is 77
+      console.log(sum);`,
+    },
+    {
+      name: 'Loops > for-of loop',
+      code: `//ECMAScript 6 feature
+      let numbers = [2, 3, 5, 7, 11, 13, 17, 19];
+      let sum = 0;
+      for (let number of numbers) {
+          sum += number;
+      }
+      //sum is 77
+      console.log(sum);`,
+    },
+    {
+      name: 'Loops > forEach loop',
+      code: `let numbers = [2, 3, 5, 7, 11, 13, 17];
+      let sum = 0;
+      numbers.forEach((i) => {
+          sum += i;
+       });
+      //sum is 58
+      console.log(sum);
+
+      let mult = 1;
+      new Array(2, 3, 4, 5)
+          .forEach(function(value) {
+          mult = mult * value;
+      });
+      //mult is 120
+      console.log(mult);`,
+    },
+    {
+      name: 'Loops > while loop',
+      code: `let i = 5;
+      let f5 = 1;
+
+      while (i > 1) {
+          f5 *= i;
+          i--;
+      }
+      //f5 is 120
+      console.log(f5);`,
+    },
+    {
+      name: 'Loops > endless loop',
+      code: `for (; ;) {
+        //statements
+    }
+
+    while (true) {
+        //statements
+    }
+
+    do {
+        //statements
+    } while (true);`,
+    },
+    {
+      name: 'Control flow > debugger statement',
+      code: `function f(o) {
+        //When the debugger is invoked, execution
+        //is paused at the debugger statement.
+        //It is like a breakpoint in the script source.
+        if (o === undefined) debugger;
+    }`,
+    },
+    {
+      name: 'Control flow > with statement',
+      code: `var rect = {
+        point: {
+            x: 3, y: 4
+        },
+        size: {
+            width: 10,
+            height: 12
+        }
+    };
+
+    with (rect.point) {
+        x += 1;
+        y += 1;
+    }
+    //rect.point.x is 4
+    //rect.point.y is 5
+
+    console.log(rect.point.x);
+    console.log(rect.point.y);`,
+    },
+    {
+      name: 'Enumerations > Base member value',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 0,
+          Fall: 1,
+          Winter: 2,
+          Spring: 3
+      });
+
+      var winter = Season.Winter;
+      //winter is 2
+
+      console.log(winter);`,
+    },
+    {
+      name: 'Enumerations > Base type',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 0,
+          Fall: 1,
+          Winter: 2,
+          Spring: 3
+      });
+
+      Status = Object.freeze({
+          Busy: "Busy",
+          Available: "Available"
+      });
+
+      Switch = Object.freeze({
+          On: true,
+          Off: false
+      });
+
+      let winter = Season.Winter;
+      //winter is 2
+
+      let available = Status.Available;
+      //available is "Available"
+
+      let on = Switch.On;
+      //on is true
+
+      console.log(winter);
+      console.log(available);
+      console.log(on);`,
+    },
+    {
+      name: 'Enumerations > Conversion from a string',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 1,
+          Fall: 2,
+          Winter: 3,
+          Spring: 4
+      });
+
+      var summer = Season["Summer"];
+      //summer is Season.Summer (1)
+
+      console.log(summer);`,
+    },
+    {
+      name: 'Enumerations > Converting to a string',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 1,
+          Fall: 2,
+          Winter: 3,
+          Spring: 4
+      });
+
+      let summer = Season.Summer;
+      let strValue = "";
+      for (var i in Season) {
+          if (Season[i] === summer) {
+              strValue = i;
+              break;
+          }
+      }
+      //strValue is "Summer"
+
+      console.log(strValue);`,
+    },
+    {
+      name: 'Enumerations > Definition and initialization',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 1,
+          Fall: 2,
+          Winter: 3,
+          Spring: 4
+      });
+
+      let summer = Season.Summer;
+      let winter = Season.Winter;
+
+      Season.Summer = 5;
+
+      console.log(summer);
+      console.log(winter);`,
+    },
+    {
+      name: 'Enumerations > Enums comparasion',
+      code: `//In Javascript there are no enum type
+      Size = Object.freeze({
+          xs: 1, s: 2, m: 3, l: 4, xl: 5
+      })
+
+      let small = Size.s
+      let large = Size.l
+
+      console.log("is l > s:", large > small)`,
+    },
+    {
+      name: 'Enumerations > Explicity set base value',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 1,
+          Fall: 2,
+          Winter: 3,
+          Spring: 4
+      });
+
+      let baseWinter = Season.Winter;
+      //baseWinter is 3
+
+      console.log(baseWinter);`,
+    },
+    {
+      name: 'Eumerations > Get the list of values',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 1,
+          Fall: 2,
+          Winter: 3,
+          Spring: 4
+      });
+
+      //ECMAScript 6 feature
+      let values = Object.keys(Season)
+          .map(key => Season[key]);
+      //values is [1,2,3,4]
+
+      console.log("values is", values);`,
+    },
+    {
+      name: 'Enumerations > Initilizing from a base value',
+      code: `//In Javascript there are no enum type
+      Season = Object.freeze({
+          Summer: 0,
+          Fall: 1,
+          Winter: 2,
+          Spring: 3
+      });
+
+      let winter = 2;
+      let isWinter = winter === Season.Winter;
+      //isWinter is true
+
+      console.log(isWinter);`,
+    },
+    {
+      name: 'Exceptions handling > Catch all exceptions',
+      code: `function throwWhenNullOrEmpty(array)
+      {
+          if (array == null) {
+              throw "array is null";
+          }
+          if (array.length === 0) {
+              throw new RangeError();
+          }
+      }
+
+      try {
+          throwWhenNullOrEmpty(null);
+      }
+      catch (e) {
+          console.log("Error: " + e);
+      }`,
+    },
+    {
+      name: 'Exceptions handling > Call the specific exception',
+      code: `function throwWhenNullOrEmpty(array) {
+        if (array == null) {
+            throw "array is null";
+        }
+        if (array.length === 0) {
+            throw new RangeError();
+        }
+    }
+
+    try {
+        throwWhenNullOrEmpty([]);
+    }
+    catch (e) {
+        if (e.name === "RangeError") {
+            console.log("array is empty");
+        } else {
+            console.log("array is not specified");
+        }
+    }`,
+    },
+    {
+      name: 'Exceptions handling > Guaranted code execution',
+      code: `function throwIfTrue(param) {
+        try {
+            if (param)
+                throw new Error("test exception");
+    }
+        catch (e) {
+            console.log("catch");
+    }
+        finally {
+            console.log("finally");
+        }
+    }
+
+    throwIfTrue(true);
+    //printed: "catch" and "finally"
+    throwIfTrue(false);
+    //printed only "finally"`,
+    },
+    {
+      name: 'Exceptions handling > Method throwing an exception',
+      code: `//any function can throw an error
+      function functionWithException() {
+          throw new Error("test exception");
+      }
+
+      functionWithException();`,
+    },
+    {
+      name: 'Exceptions handling > Re-throw exceptions',
+      code: `function functionWithException() {
+        try {
+            throw new Error("test exception");
+        }
+        catch (e) {
+            //implementation of any partial processing
+            //and send error to the calling code
+            throw e;
+        }
+    }
+
+    try {
+        functionWithException();
+    }
+    catch (e) {
+        console.log(e);
+    }`,
+    },
+    {
+      name: 'Exceptions handling > Throw an exception',
+      code: `class Seller {
+        cars = [];
+
+        sell() {
+            if (this.cars.length === 0) {
+                throw "No cars for sale";
+            }
+            //some implementation...
+        }
+    }
+
+    var seller = new Seller();
+    seller.sell();`,
+    },
+    {
+      name: 'Extensions > Adding object methods',
+      code: `class Point {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    Point.prototype.distanceTo = function distanceTo(p) {
+        let d1 = Math.pow(this.x - p.x, 2);
+        let d2 = Math.pow(this.y - p.y, 2);
+        return Math.sqrt(d1 + d2);
+    }
+
+    let p1 = new Point(1, 2);
+    let p2 = new Point(2, 3);
+    let distance = p1.distanceTo(p2);
+    //distance is 1.4142
+
+    console.log(distance);`,
+    },
+    {
+      name: 'Extensions > Adding properties',
+      code: `class Size {
+        constructor(width, height) {
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    Object.defineProperty(Size.prototype, "area", {
+        get: function area() {
+            return this.width * this.height;
+        }
+    });
+
+    let size = new Size(4, 5);
+    let area = size.area;
+    //area is 20
+
+    console.log(area);`,
+    },
+    {
+      name: 'Extensions > Adding type methods',
+      code: `class Point {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    Point.distanceTo = function distanceTo(p1, p2) {
+        let d1 = Math.pow(p1.x - p2.x, 2);
+        let d2 = Math.pow(p1.y - p2.y, 2);
+        return Math.sqrt(d1 + d2);
+    }
+
+    let p1 = new Point(1, 2);
+    let p2 = new Point(2, 3);
+    let distance = Point.distanceTo(p1, p2);
+    //distance is 1.4142
+
+    console.log(distance);
+    `,
+    },
+    {
+      name: 'Extensions > Simple types extension',
+      code: `Object.defineProperty(String.prototype, "trimmed", {
+        get: function trimmed() {
+            return this.trim()
+        }
+    })
+
+    let str = "  \t  word \r\n".trimmed
+    //str is "word"
+
+    console.log(str)`,
+    },
+    {
+      name: 'Functions > Array of parameters ',
+      code: `//ECMAScript 6 feature
+      function getAvg(...values) {
+          if (values.length === 0) {
+              return 0;
+          }
+
+          let sum = 0;
+          for (let i in values) {
+              if (values.hasOwnProperty(i)) {
+                  sum += values[i];
+              }
+          }
+          return sum/values.length;
+      }
+
+      let avg = getAvg(1, 2, 3, 4);
+      //avg is 2.5
+
+      console.log(avg);`,
+    },
+    {
+      name: 'Functions > In/Out parameters',
+      code: `function SwapStrings(s1, s2) {
+        let tmp = s1[0];
+        s1[0] = s2[0];
+        s2[0] = tmp;
+    }
+
+    let s1 = ["A"];
+    let s2 = ["B"];
+    SwapStrings(s1, s2);
+    //s1[0] is "B", s2[0] is "A"
+    `,
+    },
+    {
+      name: 'Functions > Multiple return values',
+      code: `function getFirstLast(ar) {
+        let first = -1;
+        let last = -1;
+        if (ar.length > 0) {
+            first = ar[0];
+            last = ar[ar.length - 1];
+        }
+        return {first: first, last: last};
+    }
+
+    let ar = [2, 3, 5];
+    let result = getFirstLast(ar);
+    //result.first is 2
+    //result.last is 5
+
+    console.log(result.first);
+    console.log(result.last);`,
+    },
+    {
+      name: 'Functions > Optional parameters values',
+      code: `//ECMAScript 6 feature
+      function SayGoodbye(message = "Goodbye!") {
+          console.log(message);
+      }
+
+      SayGoodbye();
+      //prints "Goodby!"
+
+      SayGoodbye("see you");
+      //prints "see you"
+
+      //before
+      function OldSayGoodbye(message) {
+          if (message == undefined) {
+              message = "Goodbye!";
+          }
+          console.log(message);
+      }
+
+      OldSayGoodbye();
+      //prints "Goodbye!"
+
+      OldSayGoodbye("see you");
+      //prints "see you"`,
+    },
+    {
+      name: 'Functions > Variable parameters',
+      code: `function print5(data) {
+        if (data.length > 5) {
+            data = data.substring(0, 5);
+        }
+        console.log(data);
+    }
+
+    print5("1234567");
+    //printed "12345"`,
+    },
+    {
+      name: 'Functions > With return value',
+      code: `function getSum(n1, n2) {
+        return n1 + n2;
+    }
+
+    let sum = getSum(5, 3);
+    //sum is 8
+
+    console.log(sum)`,
+    },
+    {
+      name: 'Functions > Without any parameters',
+      code: `function sayHello() {
+        console.log("Hello"!);
+                    }
+    sayHello();`,
+    },
+    {
+      name: 'Functions > Without any return value',
+      code: `function add3AndPrint(value) {
+        console.log(value + 3);
+    }
+
+    add3AndPrint(5);`,
+    },
+    {
+      name: 'Generic types > Generic classes',
+      code: `//In Javascript there are no generics
+      //ECMAScript 6 feature
+      class Size {
+
+          constructor(width, height) {
+              this.width = width;
+              this.height = height;
+          }
+
+          asText() {
+              return [''+this.width, ''+this.height]
+
+          }
+      }
+
+      let sizeInt = new Size(5, 8);
+      let textInt = sizeInt.asText();
+      //textInt is "[5; 8]"
+
+      let sizeFloat = new Size(3.7, 1.58);
+      let textFloat = sizeFloat.asText();
+      //textFloat is "[3.7; 1.58]"
+
+      console.log(textInt);
+      console.log(textFloat);`,
+    },
+    {
+      name: 'Generic types > Generic methods',
+      code: `//In Javascript there are no generics
+      //ECMAScript 6 feature
+      function swap(a, b) {
+          let tmp = a[0];
+          a[0] = b[0];
+          b[0] = tmp;
+      }
+
+      let n1 = [5];
+      let n2 = [7];
+      swap(n1, n2);
+      //n1[0] is 7 and n2[0] is 5
+
+      let s1 = ["cat"];
+      let s2 = ["dog"];
+      swap(s1, s2);
+      //s1[0] is "dog" and s2[0] is "cat"
+
+      console.log(n1);
+      console.log(n2);
+
+      console.log(s1);
+      console.log(s2);`,
+    },
+    {
+      name: 'Generic types > Substitution principle',
+      code: `//In Javascript there are no generics
+      //ECMAScript 6 feature
+      class Vehicle {
+          test() {
+              console.log("test: " + this.constructor.name);
+          }
+      }
+
+      class Car extends Vehicle { }
+
+      class Truck extends Vehicle { }
+
+      let list = [];
+      let vehicle = new Vehicle();
+      let car = new Car();
+      let truck = new Truck();
+
+      list.push(vehicle);
+      list.push(car);
+      list.push(truck);
+
+      for (let curVehicle of list) {
+          curVehicle.test();
+      }`,
+    },
+    {
+      name: 'Initializing of types > Classes > With a constructor',
+      code: `//ECMAScript 6 feature
+      class Phone {
+          constructor(model) {
+              this.model = model
+          }
+      }
+
+      class Employee {
+          constructor(firstName, lastName, phone) {
+              this.firstName = firstName;
+              this.lastName = lastName;
+              this.phone = phone;
+          }
+      }
+
+      let nokiaPhone = new Phone("Nokia 6610");
+
+      let kim = new Employee("Victorya", "Kim",
+          new Phone("iPhone 11 Pro"));
+
+      console.log(kim.phone.model);`,
+    },
+    {
+      name: 'Initializing of types > Classes > Without any constructor',
+      code: `function Phone(model) {
+        this.model = model;
+    }
+
+    function Employee(firstName, lastName, phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+    }
+
+    let nokiaPhone = new Phone("Nokia 6610");
+
+    let kim = new Employee("Victorya", "Kim",
+        new Phone("iPhone 5"));
+
+    console.log(kim.phone.model);`,
+    },
+    {
+      name: 'Initializing of types > Collections > Arrays',
+      code: `//Array of integer
+      let primeNumbers = [ 2, 3, 5, 7, 11, 13, 17, 19 ];
+
+      //Array of string
+      let gameList = [ "soccer", "hockey", "basketball" ];
+
+      //ECMAScript 6 feature
+      class Employee {
+          constructor(firstName, lastName) {
+              this.firstName = firstName;
+              this.lastName = lastName;
+          }
+      }
+
+      //Array of Employee
+      let employees = [
+          new Employee("Anton", "Pavlov"),
+          new Employee("Elena", "Kirienko")
+      ];
+
+      console.log(employees[1].lastName);`,
+    },
+    {
+      name: 'Initializing of types > Collections > Dictionaries',
+      code: `//Map<String, String>
+      let languages = new Map([
+          ["ru", "russian"],
+          ["en", "english"]]);
+
+      //Dictionary<Int, String> (object)
+      let numbers = {
+          1: "one", 2: "two", 3: "three"
+      };
+
+      class Employee {
+          constructor(firstName, lastName) {
+              this.firstName = firstName;
+              this.lastName = lastName;
+          }
+      }
+
+      //Map<Int, Employee>
+      let employees = new Map([
+          [1, new Employee("Anton", "Pavlov")],
+          [2, new Employee("Elena", "Kirienko")]
+      ]);
+
+      console.log("languages is", languages);
+      console.log("numbers is", numbers);
+      console.log("lastName is",
+          employees.get(1).lastName);`,
+    },
+    {
+      name: 'Initializing of types > Collections > Set',
+      code: `//ECMAScript 6 feature
+      let intSet = new Set([
+          2, 3, 5, 7, 11, 13, 17, 19]);
+
+      console.log("intSet is", intSet);
+      console.log(intSet.has(17));`,
+    },
+    {
+      name: 'Initializing of types > Differences between "var" and "let"',
+      code: `for (var i1 = 0; i1 < 10; i1++) {}
+      //i1 is 10
+
+      for (let i2 = 0; i2 < 10; i2++) {}
+      //i2 is not visible here
+
+      var s1 = 'one';
+      var s1 = 'two';
+
+      let s2 = 'one';
+      let s2 = 'two'; //<-Error (Cannot declare a let variable twice)
+
+      console.log(test1 + "\n");
+      //test1 is undefined
+      console.log(test2 + "\n");
+      //Error (Cannot access uninitialized variable)
+
+      var test1 = "test1"
+      let test2 = "test2"`,
+    },
+    {
+      name: 'Initializing of types > Enumerations',
+      code: `Planet = {
+        "Mercury": 1, "Venus": 2, "Earth": 3
+    }
+
+    let preciousMetal = {
+        Platinum: 1, Gold: 2, Silver: 3
+    }
+
+    let gold = preciousMetal.Gold;
+    let earth = Planet.Earth;
+
+    console.log("earth is", earth);
+    console.log("gold is", gold);`,
+    },
+    {
+      name: 'Initializing of types > Simple types',
+      code: `//"const" for constants (ECMAScript 6 feature) and
+      //"let" for variables (ECMAScript 6 feature)
+
+      //Int
+      let number = 42, otherNumber = 37;
+      const maxInt64 = Number.MAX_VALUE;
+      const Mb = 1048576;
+      //⌘ Support: TC39: Stage 3, Node: 12.5+, Chrome: 75+
+      //const MB = 1_048_576;
+
+      //Double
+      const exp = 2.71828;
+      let billion = 1E+9;
+
+      //Float
+      const pi = 3.14;
+
+      //String
+      const greeting = "Hello";
+
+      //Multiline String
+      let text = "this is some\n" +
+      "multiline text";
+
+
+      //Bool
+      const sunIsStar = true;
+      let earthIsStar = false;
+
+      //Character "A"
+      const charA = 'A'; //'\u0041'
+
+      console.log('\u0041');`,
+    },
+    {
+      name: 'Initializing of types > Structures > Without any constructor',
+      code: `//In JavaScript there are no struct type
+      let size = {
+          width : 10,
+          height : 10
+      }
+
+      //the object literal notation is preferable
+      let point = new Object();
+      point.left = 5;
+      point["top"] = 5;
+
+      let rect = {
+          size : size,
+          point : point
+      }
+
+      console.log("rect.point.top =", rect.point.top)`,
+    },
+    {
+      name: 'Interfaces > Conformance checking (is,as)',
+      code: `//In Javascript there are no interfaces
+      //ECMAScript 6 feature
+      class PUID {}
+
+      class Named {
+          constructor(name) {
+              this.name = name;
+          }
+      }
+
+      class Flower extends Named {}
+
+      let rose = new Flower("Rose");
+
+      let isPUID = rose instanceof PUID;
+      //isPUID is false
+
+      let isNamed = rose instanceof Named;
+      //isNamed is true
+
+      console.log(isPUID);
+      console.log(isNamed);`,
+    },
+    {
+      name: 'Interfaces > Constructor requirements',
+      code: `//In Javascript there are no interfaces
+      //ECMAScript 6 feature
+      class List {
+          constructor(itemCount) {
+              this.itemCount = itemCount;
+              if (this.constructor.name === "List") {
+                  throw new Error("Can't instantiate abstract class!");
+              }
+          }
+      }
+
+      class SortedList extends List {}
+
+      let list = new SortedList(10)
+      //list.itemCount is 10
+
+      console.log(list.itemCount);`,
+    },
+    {
+      name: 'Interfaces > Declaration and initialization',
+      code: `//In Javascript there are no interfaces
+      //ECMAScript 6 feature
+      class Printable {
+          constructor() {
+              throw new Error("Can't instantiate abstract class!");
+          }
+
+          print(color) {
+              throw new Error("Abstract method!");
+          }
+      }
+
+      shape = new Printable();`,
+    },
+    {
+      name: 'Interfaces > Interfaces collection',
+      code: `/In Javascript there are no interfaces
+      //ECMAScript 6 feature
+      class Named {
+          constructor(name) {
+              this.name = name;
+          }
+      }
+
+      class Flower extends Named {}
+
+      class City extends Named {}
+
+      class Star extends Named {}
+
+      let rows = [
+          new Flower("Rose"),
+          new City("Rome"),
+          new Star("Sirius")];
+
+      let list = rows.map(r => r.name).join(", ");
+      //list is Rose, Rome, Sirius
+
+      console.log(list);`,
+    },
+    {
+      name: 'Interfaces > Interfaces inheritance',
+      code: `//In Javascript there are no interfaces
+      //ECMAScript 6 feature
+      class AVehicle {
+          constructor(maxSpeed) {
+              this.maxSpeed = maxSpeed;
+              if (this.constructor.name === "AVehicle") {
+                  throw new Error("Can't instantiate abstract class!");
+              }
+          }
+      }
+
+      class ATruck extends AVehicle {
+          constructor(maxSpeed, capacity) {
+              super(maxSpeed);
+              this.capacity = capacity;
+              if (this.constructor.name === "ATruck") {
+                  throw new Error("Can't instantiate abstract class!");
+              }
+          }
+      }
+
+      class Kamaz5320 extends ATruck {
+          constructor() {
+              super(85, 8000);
+          }
+      }
+
+      let kamaz = new Kamaz5320();
+      maxSpeed = kamaz.maxSpeed;
+      //maxSpeed is 85
+
+      console.log(maxSpeed);`,
+    },
+    {
+      name: 'Interfaces > Methods requirements',
+      code: `//In Javascript there are no interfaces
+      //ECMAScript 6 feature
+      class Car {
+          constructor(started) {
+              this.started = started;
+              if (this.constructor.name === "Car") {
+                  throw new Error("Can't instantiate abstract class!");
+              }
+          }
+
+          startEngine() {
+              if (this.started)
+                  return false;
+              this.started = true;
+              return true;
+          }
+
+          stopEngine() {
+              this.started = false;
+          }
+      }
+
+      class SportCar extends Car {}
+
+      let car = new SportCar();
+      console.log(car.startEngine());
+      console.log(car.startEngine());`,
+    },
+    {
+      name: 'Interfaces > Properties requirements',
+      code: `//In Javascript there are no interfaces
+      //ECMAScript 6 feature
+      class Car {
+          constructor(engineVolume) {
+              this.engineVolume = engineVolume;
+          }
+      }
+
+      class Airwave extends Car {
+          constructor() {
+              super(1500);
+          }
+      }
+
+      let airwave = new Airwave()
+      //airwave.engineVolume is 1500
+
+      console.log(airwave.engineVolume);`,
+    },
+    {
+      name: 'Lambda expressions > Capture of variables',
+      code: `//ECMAScript 6 feature
+      let makeWallet = sum => pay => {
+          sum -= pay;
+          return sum;
+      }
+
+      let sum1 = 1000;
+      let payFromWallet1 = makeWallet(sum1);
+      let sum2 = 500;
+      let payFromWallet2 = makeWallet(sum2);
+      let balance = payFromWallet1(50);
+      //balance is 950
+
+
+      balance = payFromWallet2(70);
+      //balance is 430
+
+
+      balance = payFromWallet1(150);
+      //balance is 800
+`,
+    },
+    {
+      name: 'Lambda expressions > Currying',
+      code: `//ECMAScript 6 feature
+      let carry = f => a => b => f(a, b);
+
+      let avg = (a, b) => (a + b)/2;
+      let n1 = avg(1, 3);
+      //n1 is 2
+
+      let avg1 = carry(avg)(1);
+      //avg1 is avg func with first param = 1
+      let n2 = avg1(5);
+      //n2 is 3 = (1 + 5)/2`,
+    },
+    {
+      name: 'Lambda expressions > Function as a parameter',
+      code: `//ECMAScript 6 feature
+      let numbers = [2, 3, 1];
+      numbers.sort((a, b) => a - b);
+      //numbers is [3, 2, 1]
+
+
+      // * previous version *
+      numbers.sort(function(a, b) {
+          return a - b;
+      });
+      //numbers is [3, 2, 1]
+   `,
+    },
+    {
+      name: 'Lambda expressions > Function as a return value',
+      code: `//ECMAScript 6 feature
+      let makeSum = () => (a, b) => a + b;
+
+      let sumFunc = makeSum();
+      let sum = sumFunc(5, 8);
+      //sum is 13
+
+
+      // * previous version *
+      var makeSum2 = function() {
+          return function(a, b) {
+              return a + b;
+          }
+      }
+
+      var sumFunc2 = makeSum2();
+      var sum2 = sumFunc2(7, 8);
+      //sum2 is 15
+    `,
+    },
+    {
+      name: 'Lambda expressions > Modify captured variables',
+      code: `//ECMAScript 6 feature
+      let x = 5;
+
+      let addYtoX = y => x += y;
+      addYtoX(3);
+      //x is 8
+    ;
+
+      // * previous version *
+      var x1 = 5;
+
+      var addYtoX1 = function(y) {
+          x1 += y;
+      }
+      addYtoX1(1);
+      //x1 is 6
+   `,
+    },
+    {
+      name: 'Lambda expressions > Void function as a parameter',
+      code: `//ECMAScript 6 feature
+      let checkAndProcess = (number, process) => {
+          if (number < 10) {
+              process(number);
+          }
+      }
+
+      let process = number =>
+           console.log(number*10);
+
+      checkAndProcess(5, process);
+      //printed: 50`,
+    },
+    {
+      name: 'Lambda expressions > With multiple operators',
+      code: `function Point(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    //ECMAScript 6 feature
+    let getDistance = (p1, p2) => {
+        let d1 = Math.pow(p1.x - p2.x, 2);
+        let d2 = Math.pow(p1.y - p2.y, 2);
+        return Math.sqrt(d1 + d2);
+    }
+
+    let point1 = new Point(0, 0);
+    let point2 = new Point(5, 5);
+    let distance = getDistance(point1, point2);
+    //distance is 7.071
+
+    // * previous version *
+    function Point1(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    var getDistance1 = function(p1, p2) {
+        var d1 = Math.pow(p1.x - p2.x, 2);
+        var d2 = Math.pow(p1.y - p2.y, 2);
+        return Math.sqrt(d1 + d2);
+    }
+
+    var point3 = new Point1(0, 0);
+    var point4 = new Point1(7, 7);
+    var distance2 = getDistance1(point3, point4);
+    //distance2 is 9.899
+  `,
+    },
+    {
+      name: 'Lambda expressions > With multiple parameters',
+      code: `//ECMAScript 6 feature
+      let avgFunc = (a, b) => (a + b) / 2;
+      let avg = avgFunc(3, 5);
+      //avg is 4
+
+      // * previous version *
+      var avgFunc2 = function(a, b) {
+          return (a + b) / 2;
+      }
+      var avg2 = avgFunc2(7, 5);
+      //avg2 is 6
+ `,
+    },
+    {
+      name: 'Lambda expressions > With one parameter',
+      code: `var powOfTwo = function(power) {
+        return Math.pow(2, power);
+    }
+    var pow8 = powOfTwo(8);
+    //pow8 is 256
+
+    //ECMAScript 6 feature
+    let powOfThree = power => Math.pow(3, power);
+    let pow3 = powOfThree(3);
+    //pow3 is 27`,
+    },
+    {
+      name: 'Lambda expressions > Without return value',
+      code: `//ECMAScript 6 feature
+      let add2AndPrint =
+          a => console.log(a + 2);
+      add2AndPrint(5)
+      //printed 7
+
+      // * previous version *
+      var add3AndPrint = function(a) {
+          console.log(a + 3);
+      }
+      add3AndPrint(5);
+      //printed 8`,
+    },
+    {
+      name: 'Multi-threaded operations > Asynchronous call',
+      code: `//ECMAScript 6 feature
+      let i = 5;
+      let action = () => console.log(i * 10);
+
+      //wait 3 seconds and run lambda function
+      setTimeout(action, 3000);`,
+    },
+    {
+      name: 'Multi-threaded operations > Asynchronous call with a result',
+      code: `function add(a, b) {
+        return new Promise(resolve => {
+                setTimeout(() => {
+                        resolve(a + b);
+                    }, 3000);
+        })
+    }
+
+    add(5, 3).then(result => console.log(result));`,
+    },
+    {
+      name: 'Multi-threaded operations > Keyword "async" and "await"',
+      code: `function add(a, b) {
+        return new Promise(resolve => {
+            setTimeout(() => { resolve(a + b) }, 3000);
+        })
+    }
+
+    async function test() {
+        return await add(5, 3);
+    }
+
+    //Start async function and wait for add() result
+    test().then(result => console.log(result))`,
+    },
+    {
+      name: 'Multi-threaded operations > Start of a new thread',
+      code: `function add(a, b) {
+        return a + b;
+    }
+
+    //ECMAScript 6 feature
+    setTimeout(() => {
+        let result = add(3, 5);
+        console.log(result);
+    }, 3000);
+    console.log('main thread');
+    //output:
+    //main thread
+    //result: 8`,
+    },
+    {
+      name: 'Multi-threaded operations > Start of a new thread and waiting',
+      code: `async function showAddResult(a, b) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                result = a + b;
+                console.log(result);
+                resolve(result);
+            }, 3000);
+        })
+    }
+
+    async function test() {
+        //ECMAScript 6 feature
+        //Start async function and wait for add() result
+        await showAddResult(3, 5);
+        console.log('main function');
+        //output:
+        //result: 8
+        //main function
+    }
+
+    test()`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Chain of Responsibility',
+      code: `//Handler
+      class Rescuer {
+          constructor(code, next) {
+              this._code = code;
+              this._next = next;
+          }
+
+          //HandleRequest()
+          help(code) {
+              if (this._code === code) {
+                  this.toHelp();
+              } else if (this._next != undefined) {
+                  this._next.help(code);
+              }
+          }
+      }
+
+      //ConcreteHandler
+      class Firefighter extends Rescuer {
+          constructor(next) {
+              super(1, next);
+          }
+
+          toHelp() {
+              console.log("call firefighters");
+          }
+      }
+
+      //ConcreteHandler
+      class Police extends Rescuer {
+          constructor(next) {
+              super(2, next);
+          }
+
+          toHelp() {
+              console.log("call the police");
+          }
+      }
+
+      //ConcreteHandler
+      class Ambulance extends Rescuer {
+          constructor(next) {
+              super(3, next);
+          }
+
+          toHelp() {
+              console.log("call an ambulance");
+          }
+      }
+
+      let ambulance = new Ambulance();
+      let police = new Police(ambulance);
+      let firefighter = new Firefighter(police);
+      firefighter.help(1);
+      //printed: call firefighters
+      firefighter.help(2);
+      //printed: call the police
+      firefighter.help(3);
+      //printed: call an ambulance`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Command',
+      code: `//Invoker
+      class BankClient {
+          constructor(cPut, cGet) {
+              this._putCommand = cPut;
+              this._getCommand = cGet;
+          }
+
+          putMoney() {
+              this._putCommand.execute();
+          }
+
+          getMoney() {
+              this._getCommand.execute();
+          }
+      }
+
+      //Receiver
+      class Bank {
+          giveMoney() {
+              console.log("money to the client");
+          }
+
+          receiveMoney()  {
+              console.log("money from the client");
+          }
+      }
+
+      //ConcreteCommand
+      class PutCommand {
+          constructor (bank) {
+              this._bank = bank;
+          }
+
+          execute() {
+              this._bank.receiveMoney();
+          }
+      }
+
+      //ConcreteCommand
+      class GetCommand {
+          constructor (bank) {
+              this._bank = bank;
+          }
+
+          execute() {
+              this._bank.giveMoney();
+          }
+      }
+
+      //Client
+      let bank = new Bank();
+      let cPut = new PutCommand(bank);
+      let cGet = new GetCommand(bank);
+      let client = new BankClient(cPut, cGet);
+      client.getMoney();
+      //printed: money to the client
+      client.putMoney();
+      //printed: money from the client`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Interpreter',
+      code: `//TerminalExpression
+      class DivExpression {
+          constructor(divider) {
+              this._divider = divider;
+          }
+
+          interpret(i) {
+              return i % this._divider === 0;
+          }
+      }
+
+      //NonterminalExpression
+      class OrExpression {
+          constructor(exp1, exp2) {
+              this.exp1 = exp1;
+              this.exp2 = exp2;
+          }
+
+          interpret(i) {
+              return this.exp1.interpret(i) ||
+                     this.exp2.interpret(i);
+          }
+      }
+
+      //NonterminalExpression
+      class AndExpression {
+          constructor(exp1, exp2) {
+              this.exp1 = exp1;
+              this.exp2 = exp2;
+          }
+
+          interpret(i) {
+              return this.exp1.interpret(i) &&
+                     this.exp2.interpret(i);
+          }
+      }
+
+      //Client
+      let divExp5 = new DivExpression(5);
+      let divExp7 = new DivExpression(7);
+      let orExp = new OrExpression(
+          divExp5, divExp7);
+      let andExp = new AndExpression(
+          divExp5, divExp7);
+
+      //21 is divided by 7 or 5?
+      let result1 = orExp.interpret(21);
+      //result1 is true
+
+      //21 is divided by 7 and 5?
+      let result2 = andExp.interpret(21);
+      //result2 is false
+
+      //35 is divided by 7 and 5?
+      let result3 = andExp.interpret(35);
+      //result3 is true
+
+      console.log(result1);
+      console.log(result2);
+      console.log(result3);`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Iterator',
+      code: `//ConcreteAggregate
+      class PrimeNumbers {
+          constructor() {
+              this.numbers = [2, 3, 5, 7, 11];
+          }
+
+          getIterator() {
+              return new Iterator(this);
+          }
+      }
+
+       //ConcreteIterator
+      class Iterator {
+
+          constructor(primeNumbers) {
+              this.index = 0;
+              this.numbers = primeNumbers.numbers;
+          }
+
+          first() {
+              this.index = 0;
+          }
+
+          next() {
+              this.index++;
+          }
+
+          isDone() {
+              return this.index >= this.numbers.length;
+          }
+
+          currentItem() {
+              return this.numbers[this.index];
+          }
+      }
+
+       //Client
+      let numbers = new PrimeNumbers();
+      let iterator = numbers.getIterator();
+      let sum = 0;
+      for (iterator.first(); !iterator.isDone(); iterator.next()) {
+          sum += iterator.currentItem();
+      }
+      //sum is 28
+
+      console.log(sum);`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Mediator',
+      code: `class Mediator {
+        constructor() {
+            this._switchers = [];
+        }
+
+        add(switcher) {
+            this._switchers.push(switcher);
+        }
+    }
+
+    //Colleague
+    class Switcher {
+        constructor(mediator) {
+            this._state = false;
+            this._mediator = mediator;
+            this._mediator.add(this);
+        }
+
+        sync() {
+            this._mediator.sync(this);
+        }
+
+        getState() {
+            return this._state;
+        }
+
+        setState(value) {
+            this._state = value;
+        }
+    }
+
+    //ConcreteMediator
+    class SyncMediator extends Mediator {
+        constructor() {
+            super();
+        }
+
+        sync(switcher) {
+            let state = switcher.getState();
+            let switchers = this._switchers;
+            for (let i in switchers) {
+                if (switchers.hasOwnProperty(i)) {
+                    switchers[i].setState(state);
+                }
+            }
+        }
+    }
+
+    //Client
+    let mediator = new SyncMediator();
+    let switcher1 = new Switcher(mediator);
+    let switcher2 = new Switcher(mediator);
+    let switcher3 = new Switcher(mediator);
+
+    switcher1.setState(true);
+    let state2 = switcher2.getState();
+    //state2 is false
+    let state3 = switcher3.getState();
+    //state3 is false
+
+    switcher1.sync();
+    state2 = switcher2.getState();
+    //state2 is true
+    state3 = switcher3.getState();
+    //state3 is true
+
+    console.log(state2);
+    console.log(state3);`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Memento',
+      code: `//State
+      class Point {
+          constructor(x, y) {
+              this.x = x;
+              this.y = y;
+          }
+      }
+
+      class Memento {
+          constructor(mState) {
+              this.__state = mState;
+          }
+
+          getState() {
+              return this.__state;
+          }
+      }
+
+      //Originator
+      class Shape {
+          constructor() {
+              this.position = new Point(0, 0);
+          }
+
+          move(left, top) {
+              this.position.x += left;
+              this.position.y += top;
+          }
+
+          getMemento() {
+              let state = new Point(
+                  this.position.x, this.position.y);
+              return new Memento(state);
+          }
+
+          setMemento(memento) {
+              this.position = memento.getState();
+          }
+      }
+
+      //Caretaker
+      class ShapeHelper {
+          constructor(hShape) {
+              this.stack = [];
+              this.shape = hShape;
+          }
+
+          move(left, top) {
+              this.stack.push(
+                  this.shape.getMemento());
+              this.shape.move(left, top);
+          }
+
+          undo() {
+              if (this.stack.length > 0) {
+                  this.shape.setMemento(
+                      this.stack.pop());
+              }
+          }
+      }
+
+      let shape = new Shape();
+      let helper = new ShapeHelper(shape);
+
+      helper.move(2, 3);
+      //shape.position is (2, 3)
+      console.log(shape.position.x + ", " + shape.position.y);
+      helper.move(-5, 4);
+      //shape.position is (-3, 7)
+      console.log(shape.position.x + ", " + shape.position.y);
+
+      helper.undo();
+      //shape.position is (2, 3)
+      console.log(shape.position.x + ", " + shape.position.y);
+      helper.undo();
+      //shape.position is (0, 0)
+      console.log(shape.position.x + ", " + shape.position.y);`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Observer',
+      code: `//ConcreteObserver
+      class TextObserver {
+          constructor(oName) {
+              this.name = oName;
+          }
+
+          update(state) {
+              console.log(this.name + ": " + state);
+          }
+      }
+
+      //Subject
+      class TestSubject {
+          constructor() {
+              this._observers = [];
+          }
+
+          attach(observer) {
+              this._observers.push(observer);
+          }
+
+          detach(observer) {
+              let i = this._observers.indexOf(observer);
+              observers.splice(i, 1);
+          }
+
+          notify(state) {
+              for (let i in this._observers) {
+                  if (this._observers.hasOwnProperty(i)) {
+                      this._observers[i].update(state);
+                  }
+              }
+          }
+      }
+
+      //ConcreteSubject
+      class TextEdit extends TestSubject {
+          constructor() {
+              super();
+              this.text = "";
+          }
+
+          //SetState(State)
+          setText(sText) {
+              this.text = sText;
+              this.notify(this.text);
+          }
+
+          getText() {
+              return this.text;
+          }
+      }
+
+      //Client
+      let observer1 = new TextObserver("Observer #1");
+      let observer2 = new TextObserver("Observer #2");
+
+      let textEdit = new TextEdit();
+      textEdit.attach(observer1);
+      textEdit.attach(observer2);
+
+      textEdit.setText("test text");
+      //printed:
+      //Observer #1: test text
+      //Observer #2: test text`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > State',
+      code: `//ConcreteState
+      class CloseState {
+          open(c) {
+              console.log("open the connection");
+              c.setState(new OpenState());
+          }
+
+          close(c) {
+              console.log("connection is already closed");
+          }
+      }
+
+      //ConcreteState
+      class OpenState {
+          open(c) {
+              console.log("connection is already open");
+          }
+
+          close(c) {
+              console.log("close the connection");
+              c.setState(new CloseState());
+          }
+      }
+
+      //Context
+      class Connection {
+          constructor() {
+              this.state = new CloseState();
+          }
+
+          open() {
+              this.state.open(this);
+          }
+
+          close() {
+              this.state.close(this);
+          }
+
+          setState(sState) {
+              this.state = sState;
+          }
+      }
+
+      //Client
+      let con = new Connection();
+      con.open();
+      //printed: open the connection
+      con.open();
+      //printed: connection is already open
+      con.close();
+      //printed: close the connection
+      con.close();
+      //printed: connection is already closed`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Strategy',
+      code: `//ConcreteStrategy
+      class AddStrategy {
+          doOperation(a, b) {
+              return a + b;
+          }
+      }
+
+      //ConcreteStrategy
+      class SubstractStrategy {
+          doOperation(a, b) {
+              return a - b;
+          }
+      }
+
+      //Context
+      class Calc {
+          constructor() {
+              this.strategy = undefined;
+          }
+
+          execute(a, b) {
+              if (this.strategy == undefined)
+                  return 0;
+              return this.strategy.doOperation(a, b);
+          }
+
+          setStrategy(sStrategy) {
+              this.strategy = sStrategy;
+          }
+      }
+
+      let calc = new Calc();
+      let result1 = calc.execute(5, 3);
+      //result1 is 0
+
+      calc.setStrategy(new AddStrategy());
+      let result2 = calc.execute(5, 3);
+      //result2 is 8
+
+      calc.setStrategy(new SubstractStrategy());
+      let result3 = calc.execute(5, 3);
+      //result3 is 2
+
+      console.log(result1);
+      console.log(result2);
+      console.log(result3);`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Template method',
+      code: `class Shape {
+        //Template method
+        draw() {
+            if (!this.canDraw())
+                return;
+            this.doDraw();
+            this.notifyListeners();
+        }
+
+        canDraw() {
+            //If it possible to draw the shape
+            return true;
+        }
+
+        //primitive operation
+        doDraw() {}
+
+        notifyListeners() {
+            console.log("shape is drawn");
+        }
+    }
+
+    class Сircle extends Shape {
+        constructor() {
+            super();
+        }
+
+        doDraw() {
+            console.log("draw a circle");
+        }
+    }
+
+    //Client
+    let сircle = new Сircle();
+    сircle.draw();`,
+    },
+    {
+      name: 'Patterns > Behavioral patterns > Visitor',
+      code: `//ConcreteElement
+      class Engine {
+          accept(v) {
+              v.visitEngine(this);
+          }
+      }
+
+      //ConcreteElement
+      class Wheel {
+          constructor(wNumber) {
+              this.number = wNumber;
+          }
+
+          getNumber() {
+              return this.number;
+          }
+
+          accept(v) {
+              v.visitWheel(this);
+          }
+      }
+
+      //ConcreteElement
+      class Car {
+          constructor() {
+              this.items = [
+                  new Engine(),
+                  new Wheel(1), new Wheel(2),
+                  new Wheel(3), new Wheel(4)];
+          }
+
+          accept(v) {
+              for (let i in this.items) {
+                  if (this.items.hasOwnProperty(i)) {
+                      this.items[i].accept(v);
+                  }
+              }
+              v.visitCar(this);
+          }
+      }
+
+      //ConcreteVisitor
+      class TestCarVisitor {
+          visitEngine(engine) {
+              console.log("test engine");
+          }
+
+          visitWheel(wheel) {
+              console.log("test wheel #" +
+                  wheel.getNumber());
+          }
+
+          visitCar(car) {
+              console.log("test car");
+          }
+      }
+
+      //ConcreteVisitor
+      class RepairCarVisitor {
+          visitEngine(engine) {
+              console.log("repair engine");
+          }
+
+          visitWheel(wheel) {
+              console.log("repair wheel #" +
+                  wheel.getNumber());
+          }
+
+          visitCar(car) {
+              console.log("repair car");
+          }
+      }
+
+      //Client
+      let car = new Car();
+      let v1 = new TestCarVisitor();
+      let v2 = new RepairCarVisitor();
+
+      car.accept(v1);
+      car.accept(v2);`,
+    },
+    {
+      name: 'Patterns > Creational patterns > Abstract factory',
+      code: `//concrete product A1
+      class ProductA1 {
+          testA() {
+              console.log("test A1");
+          };
+      }
+
+      //concrete product A2
+      class ProductA2 {
+          testA() {
+              console.log("test A2");
+          };
+      }
+
+      //concrete product B1
+      class ProductB1 {
+          testB() {
+              console.log("test B1");
+          };
+      }
+
+      //concrete product B2
+      class ProductB2 {
+          testB() {
+              console.log("test B2");
+          };
+      }
+
+      //concrete factory 1
+      class Factory1 {
+          createA() {
+              return new ProductA1();
+          };
+          createB() {
+              return new ProductB1();
+          };
+      }
+
+      //concrete factory 2
+      class Factory2 {
+          createA() {
+              return new ProductA2();
+          };
+          createB() {
+              return new ProductB2();
+          };
+      }
+
+      //client code
+      function testFactory(factory) {
+          let productA = factory.createA();
+          let productB = factory.createB();
+          productA.testA();
+          productB.testB();
+      }
+
+      testFactory(new Factory1());
+      //printed: test A1
+      //         test B1
+      testFactory(new Factory2());
+      //printed: test A2
+      //         test B2`,
+    },
+    {
+      name: 'Patterns > Creational patterns > Builder',
+      code: `//ConcreteBuilder 1
+      class TextBuilder {
+          constructor() {
+              this.text = "";
+          }
+
+          addText(value) {
+              this.text += value;
+          }
+
+          addNewLine(value) {
+              this.text += "\n" + value;
+          }
+
+          getText() {
+              return this.text;
+          }
+      }
+
+      //ConcreteBuilder 2
+      class HtmlBuilder {
+          constructor() {
+              this.html = "";
+          }
+
+          addText(value) {
+              this.html += "<span>" + value + "</span>";
+          }
+
+          addNewLine(value) {
+              this.html += "<br/>\n";
+              this.addText(value);
+          }
+
+          getHtml() {
+              return this.html;
+          }
+      }
+
+      //Director
+      class TextMaker {
+          makeText(textBuilder) {
+              textBuilder.addText("line 1");
+              textBuilder.addNewLine("line 2");
+          }
+      }
+
+      //Client
+      let textMaker = new TextMaker();
+
+      let textBuilder = new TextBuilder();
+      textMaker.makeText(textBuilder);
+      let text = textBuilder.getText();
+      //text: line 1
+      //      line 2
+
+      let htmlBuilder = new HtmlBuilder();
+      textMaker.makeText(htmlBuilder);
+      let html = htmlBuilder.getHtml();
+      //html: <span>line 1</span><br/>
+      //      <span>line 2</span>
+
+      console.log(text);
+      console.log(html);`,
+    },
+    {
+      name: 'Patterns > Creational patterns > Factory Method',
+      code: `//Product
+      class Employee {
+          test() {
+              console.log("Employee");
+          }
+      }
+
+      //ConcreteProduct
+      class Manager extends Employee {
+          test() {
+              console.log("Manager");
+          }
+      }
+
+      //Creator
+      class Creator {
+          //FactoryMethod
+          createEmployee() {
+              return new Employee();
+          }
+
+          //Some operation
+          test() {
+              this.createEmployee().test();
+          }
+      }
+
+      //ConcreteCreator
+      class ManagerCreator extends Creator {
+          //FactoryMethod
+          createEmployee() {
+              return new Manager();
+          }
+      }
+
+      //Client
+      let creator = new Creator();
+      creator.test();
+      //printed: Employee
+
+      creator = new ManagerCreator();
+      creator.test();
+      //printed: Manager`,
+    },
+    {
+      name: 'Patterns > Creational patterns > Prototype',
+      code: `//Prototype
+      class Shape {
+          constructor(lineCount) {
+              this.lineCount = lineCount;
+          }
+
+          clone() {
+              return new Shape(this.lineCount);
+          }
+      }
+
+      //ConcretePrototype
+      class Square extends Shape {
+          constructor(lineCount) {
+              super(4);
+          }
+      }
+
+      //Client
+      class ShapeMaker {
+          constructor(shape) {
+              this._shape = shape;
+          }
+
+          makeShape() {
+              return this._shape.clone();
+          }
+      }
+
+      let square = new Square();
+      let maker = new ShapeMaker(square);
+
+      let square1 = maker.makeShape();
+      let square2 = maker.makeShape();
+
+      console.log(square1.lineCount);
+      console.log(square2.lineCount);`,
+    },
+    {
+      name: 'Patterns > Creational patterns > Singleton',
+      code: `class Settings {
+
+        constructor() {
+            if (Settings.prototype._singletonInstance) {
+                return Settings.prototype._singletonInstance;
+            }
+
+            Settings.prototype._singletonInstance = this;
+
+            this.port = 0;
+            this.host = "";
+        }
+    }
+
+    //Client
+    let settings = new Settings();
+    settings.host = "192.168.100.1";
+    settings.port = 33;
+
+    let settings1 = new Settings();
+    //settings1.port is 33
+    console.log(settings1.port);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Chain of Responsibility',
+      code: `//Handler
+      function Rescuer(code, next) {
+          this._code = code;
+          this._next = next;
+
+          //HandleRequest()
+          this.help = function(code) {
+              if (this._code === code) {
+                  this.toHelp();
+              } else if (next != undefined) {
+                  next.help(code);
+              }
+          }
+      }
+
+      //ConcreteHandler
+      function Firefighter(next) {
+          Rescuer.apply(this, [1, next]);
+
+          this.toHelp = function() {
+              console.log("call firefighters");
+          }
+      }
+
+      //ConcreteHandler
+      function Police(next) {
+          Rescuer.apply(this, [2, next]);
+
+          this.toHelp = function () {
+              console.log("call the police");
+          }
+      }
+
+      //ConcreteHandler
+      function Ambulance(next) {
+          Rescuer.apply(this, [3, next]);
+
+          this.toHelp = function () {
+              console.log("call an ambulance");
+          }
+      }
+
+      var ambulance = new Ambulance();
+      var police = new Police(ambulance);
+      var firefighter = new Firefighter(police);
+      firefighter.help(1);
+      //printed: call firefighters
+      firefighter.help(2);
+      //printed: call the police
+      firefighter.help(3);
+      //printed: call an ambulance`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Command',
+      code: `//Invoker
+      function BankClient(cPut, cGet) {
+          var putCommand = cPut;
+          var getCommand = cGet;
+
+          this.putMoney = function() {
+              putCommand.execute();
+          }
+
+          this.getMoney = function() {
+              getCommand.execute();
+          }
+      }
+
+      //Receiver
+      function Bank() {
+          this.giveMoney = function() {
+              console.log("money to the client");
+          }
+
+          this.receiveMoney = function()  {
+              console.log("money from the client");
+          }
+      }
+
+      //ConcreteCommand
+      function PutCommand(bank) {
+          this._bank = bank;
+
+          this.execute = function() {
+              this._bank.receiveMoney();
+          }
+      }
+
+      //ConcreteCommand
+      function GetCommand(bank) {
+          this._bank = bank;
+
+          this.execute = function() {
+              this._bank.giveMoney();
+          }
+      }
+
+      //Client
+      var bank = new Bank();
+      var cPut = new PutCommand(bank);
+      var cGet = new GetCommand(bank);
+      var client = new BankClient(cPut, cGet);
+      client.getMoney();
+      //printed: money to the client
+      client.putMoney();
+      //printed: money from the client`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Interpreter',
+      code: `//TerminalExpression
+      function DivExpression(divider) {
+          this._divider = divider;
+
+          this.interpret = function(i) {
+              return i % this._divider === 0;
+          }
+      }
+
+      //NonterminalExpression
+      function OrExpression(exp1, exp2) {
+          this.exp1 = exp1;
+          this.exp2 = exp2;
+
+          this.interpret = function(i) {
+              return exp1.interpret(i) || exp2.interpret(i);
+          }
+      }
+
+      //NonterminalExpression
+      function AndExpression(exp1, exp2) {
+          this.exp1 = exp1;
+          this.exp2 = exp2;
+
+          this.interpret = function(i) {
+              return exp1.interpret(i) && exp2.interpret(i);
+          }
+      }
+
+      //Client
+      var divExp5 = new DivExpression(5);
+      var divExp7 = new DivExpression(7);
+      var orExp = new OrExpression(
+          divExp5, divExp7);
+      var andExp = new AndExpression(
+          divExp5, divExp7);
+
+      //21 is divided by 7 or 5?
+      var result1 = orExp.interpret(21);
+      //result1 is true
+
+      //21 is divided by 7 and 5?
+      var result2 = andExp.interpret(21);
+      //result2 is false
+
+      //35 is divided by 7 and 5?
+      var result3 = andExp.interpret(35);
+      //result3 is true
+
+      console.log(result1);
+      console.log(result2);
+      console.log(result3);,`
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Iterator',
+      code: `//ConcreteAggregate
+      function PrimeNumbers() {
+         var numbers = [2, 3, 5, 7, 11];
+
+          //ConcreteIterator
+         function Iterator() {
+             var index = 0;
+
+             this.first = function () {
+                 index = 0;
+             }
+
+             this.next = function () {
+                 index++;
+             }
+
+             this.isDone = function () {
+                 return index >= numbers.length;
+             }
+
+             this.currentItem = function () {
+                 return numbers[index];
+             }
+         }
+
+         this.getIterator = function () {
+             return new Iterator();
+         }
+      }
+
+     //Client
+     var numbers = new PrimeNumbers();
+     var iterator = numbers.getIterator();
+     var sum = 0;
+     for (iterator.first(); !iterator.isDone(); iterator.next()) {
+         sum += iterator.currentItem();
+     }
+     //sum is 28
+
+     console.log(sum);
+     `,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Mediator',
+      code: `function Mediator() {
+        this._switchers = [];
+
+        this.add = function(switcher) {
+            this._switchers.push(switcher);
+        }
+    }
+
+    //Colleague
+    function Switcher(mediator) {
+        this._state = false;
+        this._mediator = mediator;
+        this._mediator.add(this);
+
+        this.sync = function() {
+            this._mediator.sync(this);
+        }
+
+        this.getState = function() {
+            return this._state;
+        }
+
+        this.setState = function(value) {
+            this._state = value;
+        }
+    }
+
+    //ConcreteMediator
+    function SyncMediator() {
+        Mediator.apply(this);
+
+        this.sync = function(switcher) {
+            var state = switcher.getState();
+            var switchers = this._switchers;
+            for (var i in switchers) {
+                if (switchers.hasOwnProperty(i)) {
+                    switchers[i].setState(state);
+                }
+            }
+        }
+    }
+
+    //Client
+    var mediator = new SyncMediator();
+    var switcher1 = new Switcher(mediator);
+    var switcher2 = new Switcher(mediator);
+    var switcher3 = new Switcher(mediator);
+
+    switcher1.setState(true);
+    var state2 = switcher2.getState();
+    //state2 is false
+    var state3 = switcher3.getState();
+    //state3 is false
+    console.log(state2);
+    console.log(state3);
+
+    switcher1.sync();
+    state2 = switcher2.getState();
+    //state2 is true
+    state3 = switcher3.getState();
+    //state3 is true
+
+    console.log(state2);
+    console.log(state3);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Memento',
+      code: `//State
+      function Point(x, y) {
+          this.x = x;
+          this.y = y;
+      }
+
+      function Memento(mState) {
+          var state = mState;
+
+          this.getState = function() {
+              return state;
+          }
+      }
+
+      //Originator
+      function Shape() {
+          this.position = new Point(0, 0);
+
+          this.move = function(left, top) {
+              this.position.x += left;
+              this.position.y += top;
+          }
+
+          this.getMemento = function () {
+              var state = new Point(
+                  this.position.x, this.position.y);
+              return new Memento(state);
+          }
+
+          this.setMemento = function(memento) {
+              this.position = memento.getState();
+          }
+      }
+
+      //Caretaker
+      function ShapeHelper(hShape) {
+          var stack = [];
+          var shape = hShape;
+
+          this.move = function(left, top) {
+              stack.push(shape.getMemento());
+              shape.move(left, top);
+          }
+
+          this.undo = function() {
+              if (stack.length > 0) {
+                  shape.setMemento(stack.pop());
+              }
+          }
+      }
+
+      var shape = new Shape();
+      var helper = new ShapeHelper(shape);
+
+      helper.move(2, 3);
+      //shape.position is (2, 3)
+      console.log(shape.position.x + ", " + shape.position.y);
+      helper.move(-5, 4);
+      //shape.position is (-3, 7)
+      console.log(shape.position.x + ", " + shape.position.y);
+
+      helper.undo();
+      //shape.position is (2, 3)
+      console.log(shape.position.x + ", " + shape.position.y);
+      helper.undo();
+      //shape.position is (0, 0)
+      console.log(shape.position.x + ", " + shape.position.y);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Observer',
+      code: `//ConcreteObserver
+      function TextObserver(oName) {
+          var name = oName;
+
+          this.update = function(state) {
+              console.log(name + ": " + state);
+          }
+      }
+
+      //Subject
+      function TectSubject() {
+          var observers = [];
+
+          this.attach = function(observer) {
+              observers.push(observer);
+          }
+
+          this.detach = function(observer) {
+              var i = observers.indexOf(observer);
+              observers.splice(i, 1);
+          }
+
+          this.notify = function(state) {
+              for (var i in observers) {
+                  if (observers.hasOwnProperty(i)) {
+                      observers[i].update(state);
+                  }
+              }
+          }
+      }
+
+      //ConcreteSubject
+      function TextEdit() {
+          TectSubject.apply(this);
+          var text = "";
+
+          //SetState(State)
+          this.setText = function(sText) {
+              text = sText;
+              this.notify(text);
+          }
+
+          this.getText = function() {
+              return text;
+          }
+      }
+
+      //Client
+      var observer1 = new TextObserver("Observer #1");
+      var observer2 = new TextObserver("Observer #2");
+
+      var textEdit = new TextEdit();
+      textEdit.attach(observer1);
+      textEdit.attach(observer2);
+
+      textEdit.setText("test text");
+      //printed:
+      //Observer #1: test text
+      //Observer #2: test text`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > State',
+      code: `//ConcreteState
+      function CloseState() {
+          this.open = function(c) {
+              console.log("open the connection");
+              c.setState(new OpenState());
+          }
+
+          this.close = function(c) {
+              console.log("connection is already closed");
+          }
+      }
+
+      //ConcreteState
+      function OpenState() {
+          this.open = function(c) {
+              console.log("connection is already open");
+          }
+
+          this.close = function(c) {
+              console.log("close the connection");
+              c.setState(new CloseState());
+          }
+      }
+
+      //Context
+      function Connection() {
+          var state = new CloseState();
+
+          this.open = function() {
+              state.open(this);
+          }
+
+          this.close = function() {
+              state.close(this);
+          }
+
+          this.setState = function(sState) {
+              state = sState;
+          }
+      }
+
+      //Client
+      var con = new Connection();
+      con.open();
+      //printed: open the connection
+      con.open();
+      //printed: connection is already open
+      con.close();
+      //printed: close the connection
+      con.close();
+      //printed: connection is already closed`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Strategy',
+      code: `//ConcreteStrategy
+      function AddStrategy() {
+          this.doOperation = function(a, b) {
+              return a + b;
+          }
+      }
+
+      //ConcreteStrategy
+      function SubstractStrategy() {
+          this.doOperation = function(a, b) {
+              return a - b;
+          }
+      }
+
+      //Context
+      function Calc() {
+          var strategy = undefined;
+
+          this.execute = function(a, b) {
+              if (strategy == undefined)
+                  return 0;
+              return strategy.doOperation(a, b);
+          }
+
+          this.setStrategy = function(sStrategy) {
+              strategy = sStrategy;
+          }
+      }
+
+      var calc = new Calc();
+      var result1 = calc.execute(5, 3);
+      //result1 is 0
+
+      calc.setStrategy(new AddStrategy());
+      var result2 = calc.execute(5, 3);
+      //result2 is 8
+
+      calc.setStrategy(new SubstractStrategy());
+      var result3 = calc.execute(5, 3);
+      //result3 is 2
+
+      console.log(result1);
+      console.log(result2);
+      console.log(result3);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Template Method',
+      code: `function Shape() {
+        //Template method
+        this.draw = function() {
+            if (!this.canDraw())
+                return;
+            this.doDraw();
+            this.notifyListeners();
+        }
+
+        this.canDraw = function() {
+            //If it possible to draw the shape
+            return true;
+        }
+
+        //primitive operation
+        this.doDraw = function() {}
+
+        this.notifyListeners = function() {
+            console.log("shape is drawn");
+        }
+    }
+
+    function Сircle() {
+        Shape.apply(this);
+
+        this.doDraw = function () {
+            console.log("draw a circle");
+        }
+    }
+
+    //Client
+    var сircle = new Сircle();
+    сircle.draw();`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Behavioral patterns > Visitor',
+      code: `//ConcreteElement
+      function Engine() {
+          this.accept = function(v) {
+              v.visitEngine(this);
+          }
+      }
+
+      //ConcreteElement
+      function Wheel(wBumber) {
+          var number = wBumber;
+
+          this.getNumber = function () {
+              return number;
+          }
+
+          this.accept = function(v) {
+              v.visitWheel(this);
+          }
+      }
+
+      //ConcreteElement
+      function Car() {
+          var items = [
+              new Engine(),
+              new Wheel(1), new Wheel(2),
+              new Wheel(3), new Wheel(4)];
+
+          this.accept = function(v) {
+              for (var i in items) {
+                  if (items.hasOwnProperty(i)) {
+                      items[i].accept(v);
+                  }
+              }
+              v.visitCar(this);
+          }
+      }
+
+      //ConcreteVisitor
+      function TestCarVisitor() {
+          this.visitEngine = function(engine) {
+              console.log("test engine");
+          }
+
+          this.visitWheel = function(wheel) {
+              console.log("test wheel #" +
+                  wheel.getNumber());
+          }
+
+          this.visitCar = function(car) {
+              console.log("test car");
+          }
+      }
+
+      //ConcreteVisitor
+      function RepairCarVisitor() {
+          this.visitEngine = function(engine) {
+              console.log("repair engine");
+          }
+
+          this.visitWheel = function(wheel) {
+              console.log("repair wheel #" +
+                  wheel.getNumber());
+          }
+
+          this.visitCar = function(car) {
+              console.log("repair car");
+          }
+      }
+
+      //Client
+      var car = new Car();
+      var v1 = new TestCarVisitor();
+      var v2 = new RepairCarVisitor();
+
+      car.accept(v1);
+      car.accept(v2);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Creational patterns > Abstract factory',
+      code: `//concrete product A1
+      function ProductA1() {
+          this.testA = function () {
+              console.log("test A1");
+          };
+      }
+
+      //concrete product A2
+      function ProductA2() {
+          this.testA = function () {
+              console.log("test A2");
+          };
+      }
+
+      //concrete product B1
+      function ProductB1() {
+          this.testB = function () {
+              console.log("test B1");
+          };
+      }
+
+      //concrete product B2
+      function ProductB2() {
+          this.testB = function () {
+              console.log("test B2");
+          };
+      }
+
+      //concrete factory 1
+      function Factory1() {
+          this.createA = function () {
+              return new ProductA1();
+          };
+          this.createB = function () {
+              return new ProductB1();
+          };
+      }
+
+      //concrete factory 2
+      function Factory2() {
+          this.createA = function () {
+              return new ProductA2();
+          };
+          this.createB = function () {
+              return new ProductB2();
+          };
+      }
+
+      //client code
+      function testFactory(factory) {
+          var productA = factory.createA();
+          var productB = factory.createB();
+          productA.testA();
+          productB.testB();
+      }
+
+      testFactory(new Factory1());
+      //printed: test A1
+      //         test B1
+      testFactory(new Factory2());
+      //printed: test A2
+      //         test B2`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Creational patterns > Builder',
+      code: `//ConcreteBuilder 1
+      function TextBuilder() {
+          var text = "";
+
+          this.addText = function(value) {
+              text += value;
+          }
+
+          this.addNewLine = function(value) {
+              text += "\n" + value;
+          }
+
+          this.getText = function() {
+              return text;
+          }
+      }
+
+      //ConcreteBuilder 2
+      function HtmlBuilder() {
+          var html = "";
+
+          this.addText = function(value) {
+              html += "<span>" + value + "</span>";
+          }
+
+          this.addNewLine = function(value) {
+              html += "\n";
+              this.addText(value);
+          }
+
+          this.getHtml = function() {
+              return html;
+          }
+      }
+
+      //Director
+      function TextMaker() {
+          this.makeText = function(textBuilder) {
+              textBuilder.addText("line 1");
+              textBuilder.addNewLine("line 2");
+          }
+      }
+
+      //Client
+      var textMaker = new TextMaker();
+
+      var textBuilder = new TextBuilder();
+      textMaker.makeText(textBuilder);
+      var text = textBuilder.getText();
+      //text: line 1
+      //      line 2
+
+      var htmlBuilder = new HtmlBuilder();
+      textMaker.makeText(htmlBuilder);
+      var html = htmlBuilder.getHtml();
+      //html: <span>line 1</span><br/>
+      //      <span>line 2</span>
+
+      console.log(text);
+      console.log(html);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Creational patterns > Factory Method',
+      code: `//Product
+      function Employee() {
+          this.test = function() {
+              console.log("Employee");
+          }
+      }
+
+      //ConcreteProduct
+      function Manager() {
+          Employee.apply(this);
+          this.test = function() {
+              console.log("Manager");
+          }
+      }
+
+      //Creator
+      function Creator() {
+          //FactoryMethod
+          this.createEmployee = function() {
+              return new Employee();
+          }
+
+          //Some operation
+          this.test = function() {
+              this.createEmployee().test();
+          }
+      }
+
+      //ConcreteCreator
+      function ManagerCreator() {
+          Creator.apply(this);
+
+          //FactoryMethod
+          this.createEmployee = function() {
+              return new Manager();
+          }
+      }
+
+      //Client
+      var creator = new Creator();
+      creator.test();
+      //printed: Employee
+
+      creator = new ManagerCreator();
+      creator.test();
+      //printed: Manager`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Creational patterns > Prototype',
+      code: `/Prototype
+      function Shape(lineCount) {
+          this.lineCount = lineCount;
+
+          this.clone = function() {
+              return new Shape(this.lineCount);
+          }
+      }
+
+      //ConcretePrototype
+      function Square() {
+          Shape.apply(this, [4]);
+      }
+
+      //Client
+      function ShapeMaker(shape) {
+          this.shape = shape;
+
+          this.makeShape = function() {
+              return shape.clone();
+          }
+      }
+
+      var square = new Square();
+      var maker = new ShapeMaker(square);
+
+      var square1 = maker.makeShape();
+      var square2 = maker.makeShape();
+
+      console.log(square1.lineCount);
+      console.log(square2.lineCount);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Creational patterns > Singleton',
+      code: `function Settings() {
+
+        if (Settings.prototype._singletonInstance) {
+            return Settings.prototype._singletonInstance;
+        }
+
+        Settings.prototype._singletonInstance = this;
+
+        this.port = 0;
+        this.host = "";
+    }
+
+    //Client
+    var settings = new Settings();
+    settings.host = "192.168.100.1";
+    settings.port = 33;
+
+    var settings1 = new Settings();
+    //settings1.port is 33
+    console.log(settings1.port);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Adapter (composition)',
+      code: `//Adapter
+      function StringList() {
+          var rows = [];
+
+          //SpecificRequest()
+          this.getString = function () {
+              return rows.join("\n");
+          }
+
+          this.add = function (value) {
+              rows.push(value);
+          }
+      }
+
+      //Adapter
+      function TextAdapter(rowList) {
+          this.rowList = rowList;
+
+          //Request()
+          this.getText = function () {
+              return rowList.getString();
+          }
+      }
+
+      function getTextAdapter() {
+          var rowList = new StringList();
+          var adapter = new TextAdapter(rowList);
+
+              rowList.add("line 1");
+          rowList.add("line 2");
+          return adapter;
+      }
+
+      //Client
+      var adapter = getTextAdapter();
+      var text = adapter.getText();
+      //text: line 1
+      //      line 2
+      console.log(text);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Adapter (inheritance)',
+      code: `//Adapter
+      function StringList() {
+          var rows = [];
+
+          //SpecificRequest()
+          this.getString = function() {
+              return rows.join("\n");
+          }
+
+          this.add = function(value) {
+              rows.push(value);
+          }
+      }
+
+      //Adapter
+      function TextAdapter() {
+          StringList.apply(this);
+
+          //Request()
+          this.getText = function() {
+              return this.getString();
+          }
+      }
+
+      function getTextAdapter() {
+          var adapter = new TextAdapter();
+          adapter.add("line 1");
+          adapter.add("line 2");
+          return adapter;
+      }
+
+      //Client
+      var adapter = getTextAdapter();
+      var text = adapter.getText();
+      //text: line 1
+      //      line 2
+      console.log(text);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Bridge',
+      code: `//Abstraction
+      function TextMaker(imp) {
+          var textImp = imp;
+
+          this.getText = function () {
+              return textImp.getString();
+          }
+
+          this.addLine = function (value) {
+              textImp.appendLine(value);
+          }
+      }
+
+      //Implementator
+      function TextImp() {
+          this._rows = [];
+
+          this.getString = function() {
+              return this._rows.join("\n");
+          }
+      }
+
+      //ConcreteImplementator
+      function TextBuilder() {
+          TextImp.apply(this);
+
+          this.appendLine = function(value) {
+              this._rows.push(value);
+          }
+      }
+
+      //ConcreteImplementator
+      function HtmlBuilder() {
+          TextImp.apply(this);
+
+          this.appendLine = function(value) {
+              this._rows.push("<span>" + value + "</span><br/>");
+          }
+      }
+
+      function fillTextBuilder(textImp) {
+          var textMaker = new TextMaker(textImp);
+          textMaker.addLine("line 1");
+          textMaker.addLine("line 2");
+          return textMaker;
+      }
+
+      //Client
+      var textMaker = fillTextBuilder(new TextBuilder());
+      var text = textMaker.getText();
+      //test: line 1
+      //      line 2
+
+      var htmlMaker = fillTextBuilder(new HtmlBuilder());
+      var html = htmlMaker.getText();
+      //html: <span>line 1</span><br/>
+      //      <span>line 2</span><br/>
+
+      console.log(text);
+      console.log(html);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Composite',
+      code: `//Leaf
+      function Сircle() {
+          this.draw = function () {
+              console.log("Draw circle");
+          }
+      }
+
+      //Leaf
+      function Square() {
+          this.draw = function () {
+              console.log("Draw square");
+          }
+      }
+
+      //Composite
+      function Image() {
+          var graphics = [];
+
+          this.add = function(graphic) {
+              graphics.push(graphic);
+          }
+
+          this.remove = function(graphic) {
+              var i = graphics.indexOf(graphic);
+              graphics.splice(i, 1);
+          }
+
+          this.draw = function() {
+              for (var i in graphics) {
+                  if (graphics.hasOwnProperty(i)) {
+                      graphics[i].draw();
+                  }
+              }
+          }
+      }
+
+      //Client
+      var image = new Image();
+      image.add(new Сircle());
+      image.add(new Square());
+      var picture = new Image();
+      picture.add(image);
+      picture.add(new Image());
+      picture.draw();`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Decorator',
+      code: `//Component
+      function Shape() {
+          //Operation()
+          this.getInfo = function () {
+              return "shape";
+          }
+
+          this.showInfo = function () {
+              console.log(this.getInfo());
+          }
+      }
+
+      //ConcreteComponent
+      function Square() {
+          Shape.apply(this);
+
+          //Operation()
+          this.getInfo = function() {
+              return "square";
+          }
+      }
+
+      //Decorator
+      function ShapeDecorator(shape)  {
+          this.shape = shape;
+          Shape.apply(this);
+
+          //Operation()
+          this.getInfo = function () {
+              return this.shape.getInfo();
+          }
+      }
+
+      //ConcreteDecorator
+      function ColorShape(shape, color) {
+          ShapeDecorator.apply(this, arguments);
+
+          this.getInfo = function () {
+              return color + " " + this.shape.getInfo();
+          }
+      }
+
+      //ConcreteDecorator
+      function ShadowShape(shape) {
+          ShapeDecorator.apply(this, arguments);
+
+          this.getInfo = function () {
+              return this.shape.getInfo() + " with shadow";
+          }
+      }
+
+      //Client
+      var square = new Square();
+      square.showInfo();
+      //printed: square
+
+      var colorShape = new ColorShape(square, "red");
+      colorShape.showInfo();
+      //printed: red square
+
+      var shadowShape = new ShadowShape(colorShape);
+      shadowShape.showInfo();
+      //printed: red square with shadow`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Facade',
+      code: `// Complex parts
+      function Kettle() {
+          this.turnOff = function() {
+              console.log("Kettle turn off");
+          }
+      }
+
+      function Toaster() {
+          this.turnOff = function() {
+              console.log("Toaster turn off");
+          }
+      }
+
+      function Refrigerator() {
+          this.turnOff = function() {
+              console.log("Refrigerator turn off");
+          }
+      }
+
+      //Facade
+      function Kitchen(kettle, toaster, refrigerator) {
+          this.kettle = kettle;
+          this.toaster = toaster;
+          this.refrigerator = refrigerator;
+
+          this.off = function() {
+              kettle.turnOff();
+              toaster.turnOff();
+              refrigerator.turnOff();
+          }
+      }
+
+      var kettle = new Kettle();
+      var toaster = new Toaster();
+      var refrigerator = new Refrigerator();
+      var kitchen = new Kitchen(
+          kettle, toaster, refrigerator);
+      kitchen.off();`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Flyweight',
+      code: `//ConcreteFlyweight
+      function Char(c) {
+          this._c = c;
+
+          //Operation(extrinsicState)
+          this.printSpan = function (style) {
+              var span = "<span style=\"" +
+                  style + "\">" + c + "</span>";
+              console.log(span);
+          }
+      }
+
+      //FlyweightFactory
+      function CharFactory() {
+          var chars = {};
+
+          //GetFlyweight(key)
+          this.getChar = function(c) {
+              var character = chars[c];
+              if (character == undefined) {
+                  character = new Char(c);
+                  chars[c] = character;
+              }
+              return character;
+          }
+      }
+
+      //Client
+      var factory = new CharFactory();
+      var charA = factory.getChar('A');
+      charA.printSpan("font-size: 40pt");
+
+      var charB = factory.getChar('B');
+      charB.printSpan("font-size: 12");
+
+      var charA1 = factory.getChar('A');
+      charA1.printSpan("font-size: 12");
+
+      var equal = charA === charA1;
+      //equal is true
+
+      console.log(equal);`,
+    },
+    {
+      name: 'Patterns > Previous Versions > Structural patterns > Proxy',
+      code: `//Subject
+      function Graphic(fileName) {
+          this._fileName = fileName;
+
+          this.getFileName = function() {
+              return this._fileName;
+          }
+      }
+
+      //RealSubject
+      function Image(fileName) {
+          Graphic.apply(this, arguments);
+
+          //Request()
+          this.draw = function() {
+              console.log("draw " + fileName);
+          }
+      }
+
+      //Proxy
+      function ImageProxy(fileName) {
+          Graphic.apply(this, arguments);
+
+          var getImage = function () {
+              if (this._image == undefined) {
+                  this._image = new Image(fileName);
+              }
+              return this._image;
+          }
+
+          this.draw = function() {
+              getImage().draw();
+          }
+      }
+
+      //Client
+      var proxy = new ImageProxy("1.png");
+      //operation without creating a RealSubject
+      var fileName = proxy.getFileName();
+      //forwarded to the RealSubject
+      proxy.draw();
+
+      console.log(fileName);`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Adapter (composition)',
+      code: `//Adaptee
+      class StringList {
+          constructor() {
+              this.rows = [];
+          }
+
+          //SpecificRequest()
+          getString() {
+              return this.rows.join("\n");
+          }
+
+          add(value) {
+              this.rows.push(value);
+          }
+      }
+
+      //Adapter
+      class TextAdapter {
+          constructor(rowList) {
+              this.rowList = rowList;
+          }
+
+          //Request()
+          getText() {
+              return this.rowList.getString();
+          }
+      }
+
+      function getTextAdapter() {
+          let rowList = new StringList();
+          let adapter = new TextAdapter(rowList);
+
+              rowList.add("line 1");
+          rowList.add("line 2");
+          return adapter;
+      }
+
+      //Client
+      let adapter = getTextAdapter();
+      let text = adapter.getText();
+      //text: line 1
+      //      line 2
+      console.log(text);`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Adapter (inheritance)',
+      code: `//Adaptee
+      class StringList {
+          constructor() {
+              this.rows = [];
+          }
+
+          //SpecificRequest()
+          getString() {
+              return this.rows.join("\n");
+          }
+
+          add(value) {
+              this.rows.push(value);
+          }
+      }
+
+      //Adapter
+      class TextAdapter extends StringList {
+          constructor() {
+              super();
+          }
+
+          //Request()
+          getText() {
+              return this.getString();
+          }
+      }
+
+      function getTextAdapter() {
+          let adapter = new TextAdapter();
+          adapter.add("line 1");
+          adapter.add("line 2");
+          return adapter;
+      }
+
+      //Client
+      let adapter = getTextAdapter();
+      let text = adapter.getText();
+      //text: line 1
+      //      line 2
+      console.log(text);`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Bridge',
+      code: `//Implementator
+      class TextImp {
+          constructor() {
+              this._rows = [];
+          }
+
+          getString() {
+              return this._rows.join("\n");
+          }
+      }
+
+      //RefinedAbstraction
+      class TextMaker {
+          constructor(imp) {
+              this.textImp = imp;
+          }
+
+          getText() {
+              return this.textImp.getString();
+          }
+
+          addLine(value) {
+              this.textImp.appendLine(value);
+          }
+      }
+
+      //ConcreteImplementator
+      class TextBuilder extends TextImp {
+          constructor() {
+              super();
+          }
+
+          appendLine(value) {
+              this._rows.push(value);
+          }
+      }
+
+      //ConcreteImplementator
+      class HtmlBuilder extends TextImp {
+          constructor() {
+              super();
+          }
+
+          appendLine(value) {
+              this._rows.push("<span>" + value + "</span><br/>");
+          }
+      }
+
+      function fillTextBuilder(textImp) {
+          let textMaker = new TextMaker(textImp);
+          textMaker.addLine("line 1");
+          textMaker.addLine("line 2");
+          return textMaker;
+      }
+
+      //Client
+      let textMaker = fillTextBuilder(new TextBuilder());
+      let text = textMaker.getText();
+      //test: line 1
+      //      line 2
+
+      let htmlMaker = fillTextBuilder(new HtmlBuilder());
+      let html = htmlMaker.getText();
+      //html: <span>line 1</span><br/>
+      //      <span>line 2</span><br/>
+
+      console.log(text);
+      console.log(html)`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Composite',
+      code: `//Leaf
+      class Сircle {
+          draw() {
+              console.log("Draw circle");
+          }
+      }
+
+      //Leaf
+      class Square {
+          draw() {
+              console.log("Draw square");
+          }
+      }
+
+      //Composite
+      class Image {
+          constructor() {
+              this.graphics = [];
+          }
+
+          add(graphic) {
+              this.graphics.push(graphic);
+          }
+
+          remove(graphic) {
+              let i = this.graphics.indexOf(graphic);
+              this.graphics.splice(i, 1);
+          }
+
+          draw() {
+              for (let i in this.graphics) {
+                  if (this.graphics.hasOwnProperty(i)) {
+                      this.graphics[i].draw();
+                  }
+              }
+          }
+      }
+
+      //Client
+      let image = new Image();
+      image.add(new Сircle());
+      image.add(new Square());
+      let picture = new Image();
+      picture.add(image);
+      picture.add(new Image());
+      picture.draw();
+      //printed:
+      //Draw circle
+      //Draw square`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Decorator',
+      code: `//Component
+      class Shape {
+          //Operation()
+          getInfo() {
+              return "shape";
+          }
+
+          showInfo() {
+              console.log(this.getInfo());
+          }
+      }
+
+      //ConcreteComponent
+      class Square extends Shape {
+          constructor() {
+              super();
+          }
+
+          //Operation()
+          getInfo() {
+              return "square";
+          }
+      }
+
+      //Decorator
+      class ShapeDecorator extends Shape {
+          constructor(shape)  {
+              super();
+              this.shape = shape;
+          }
+
+          //Operation()
+          getInfo() {
+              return this.shape.getInfo();
+          }
+      }
+
+      //ConcreteDecorator
+      class ColorShape extends ShapeDecorator {
+          constructor(shape, color) {
+              super(shape);
+              this.color = color;
+          }
+
+          getInfo() {
+              return this.color + " " + this.shape.getInfo();
+          }
+      }
+
+      //ConcreteDecorator
+      class ShadowShape extends ShapeDecorator {
+          constructor(shape) {
+              super(shape);
+          }
+
+          getInfo() {
+              return this.shape.getInfo() + " with shadow";
+          }
+      }
+
+      //Client
+      let square = new Square();
+      square.showInfo();
+      //printed: square
+
+      let colorShape = new ColorShape(square, "red");
+      colorShape.showInfo();
+      //printed: red square
+
+      let shadowShape = new ShadowShape(colorShape);
+      shadowShape.showInfo();`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Facade',
+      code: `// Complex parts
+      class Kettle {
+          turnOff() {
+              console.log("Kettle turn off");
+          }
+      }
+
+      class Toaster {
+          turnOff() {
+              console.log("Toaster turn off");
+          }
+      }
+
+      class Refrigerator {
+          turnOff() {
+              console.log("Refrigerator turn off");
+          }
+      }
+
+      //Facade
+      class Kitchen {
+          constructor(kettle, toaster, refrigerator) {
+              this.kettle = kettle;
+              this.toaster = toaster;
+              this.refrigerator = refrigerator;
+          }
+
+          off() {
+              this.kettle.turnOff();
+              this.toaster.turnOff();
+              this.refrigerator.turnOff();
+          }
+      }
+
+      let kettle = new Kettle();
+      let toaster = new Toaster();
+      let refrigerator = new Refrigerator();
+      let kitchen = new Kitchen(
+          kettle, toaster, refrigerator);
+      kitchen.off();`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Flyweight',
+      code: `//ConcreteFlyweight
+      class Char {
+          constructor(c) {
+              this._c = c;
+          }
+
+          //Operation(extrinsicState)
+          printSpan(style) {
+              let span = "<span style=\"" +
+                  style + "\">" + this._c + "</span>";
+              console.log(span);
+          }
+      }
+
+      //FlyweightFactory
+      class CharFactory {
+          constructor() {
+              this.chars = {};
+          }
+
+          //GetFlyweight(key)
+          getChar(c) {
+              let character = this.chars[c];
+              if (character == undefined) {
+                  character = new Char(c);
+                  this.chars[c] = character;
+              }
+              return character;
+          }
+      }
+
+      //Client
+      let factory = new CharFactory();
+      let charA = factory.getChar('A');
+      charA.printSpan("font-size: 40pt");
+
+      let charB = factory.getChar('B');
+      charB.printSpan("font-size: 12");
+
+      let charA1 = factory.getChar('A');
+      charA1.printSpan("font-size: 12");
+
+      let equal = charA === charA1;
+      //equal is true
+
+      console.log(equal);`,
+    },
+    {
+      name: 'Patterns > Structural patterns > Proxy',
+      code: `//Subject
+      class Graphic {
+          constructor(fileName) {
+              this._fileName = fileName;
+          }
+
+          getFileName() {
+              return this._fileName;
+          }
+      }
+
+      //RealSubject
+      class Image extends Graphic {
+          constructor(fileName) {
+              super(fileName);
+          }
+
+          //Request()
+          draw() {
+              console.log("draw " + this._fileName);
+          }
+      }
+
+      //Proxy
+      class ImageProxy extends Graphic {
+          constructor(fileName) {
+              super(fileName);
+          }
+
+          getImage() {
+              if (this._image == undefined) {
+                  this._image = new Image(this._fileName);
+              }
+              return this._image;
+          }
+
+          draw() {
+              this.getImage().draw();
+          }
+      }
+
+      //Client
+      let proxy = new ImageProxy("1.png");
+      //operation without creating a RealSubject
+      let fileName = proxy.getFileName();
+      //forwarded to the RealSubject
+      proxy.draw();
+
+      console.log(fileName);`,
+    },
+    {
+      name: 'Regular expressions > Check match whole string',
+      code: `let data2 = "aaaba";
+      let pattern = /^a+b$/;
+
+      let match1 = data1.match(pattern);
+      let b1 = match1 !== null;
+      //b1 is true
+
+      let match2 = data2.match(pattern);
+      let b2 = match2 !== null;
+      //b2 is false
+
+     `,
+    },
+    {
+      name: 'Regular expressions > Regular expression options',
+      code: `let data = "AaaA\n\raaaA";
+      let pattern = /^a+$/im;
+      let value = data.match(pattern);
+      //value is "AaaA"`,
+    },
+    {
+      name: 'Regular expressions > Replacement of the match',
+      code: `let data = "Pi = 3.14, exponent = 2.718";
+      let pattern = "(\\d+\\.\\d+)";
+      data = data.replace(
+          new RegExp(pattern, "g"), "<f>$1</f>");
+      //data is "Pi = <f>3.14</f>, exponent = <f>2.718</f>`,
+    },
+    {
+      name: 'Regular expressions > Replacement using a function',
+      code: `//"world" in hexadecimal format
+      let data = "x77x6Fx72x6Cx64";
+      let regex = /x[0-9A-F]{2}/g;
+
+      data = data.replace(regex, match => {
+          let charCode = parseInt("0" + match, 16);
+          return String.fromCharCode(charCode);
+      });
+      //data is "world"`,
+    },
+    {
+      name: 'Regular expressions > Search all matches',
+      code: `let data = "Pi = 3.14, exponent = 2.718";
+      let pattern = /(\d+\.\d+)/g;
+      data = data.match(pattern);
+      //data is [3.14, 2.718]`,
+    },
+    {
+      name: 'Regular expressions > Search for a match',
+      code: `let data = "Pi is equal to 3.14";
+      let pattern = /\d+\.\d+/;
+      let match = data.match(pattern);
+      if (match) {
+          let pi = parseFloat(match[0]);
+          //pi is 3.14
+      }    `,
+    },
+    {
+      name: 'Structures (records) > Constants',
+      code: `//In Javascript there are no structures
+      let boldLine = {
+          'lineWidth': function () {
+              return 10;
+          }
+      };
+      Object.freeze(boldLine);
+
+      let lineWidth1 = boldLine.lineWidth();
+      //lineWidth is 10
+
+      boldLine.lineWidth = 5;
+
+      let lineWidth2 = boldLine.lineWidth();
+      //lineWidth is 10`,
+    },
+    {
+      name: 'Structures (records) > Constructors',
+      code: `//In Javascript there are no structures
+      function Point(x, y) {
+          this.x = x;
+          this.y = y;
+      }
+
+      let p1 = new Point(1, 2);
+      let x1 = p1.x;
+      //x1 is 1
+
+      let p2 = new Point();
+      let x2 = p2.x;
+      //x2 is undefined`,
+    },
+    {
+      name: 'Structures (records) > Definition and initialization',
+      code: `//In Javascript there are no structures
+      function Point(x, y) {
+          this.x = x;
+          this.y = y;
+      }
+
+      let p1 = { x: 0, y: 0 };
+      let x1 = p1.x;
+      //x1 is 0
+
+      let p2 = new Point(1, 1);
+      let x2 = p2.x;
+      //x2 is 1`,
+    },
+    {
+      name: 'Structures (records) > Fields and properties',
+      code: `//In Javascript there are no structures
+      let colorPoint = {
+          x: 0, y: 0,
+          color: "undefined"
+      };
+
+      console.log(colorPoint.color);`,
+    },
+    {
+      name: 'Structures (records) > Methods',
+      code: `//In Javascript there are no structures
+      let p = {
+          x: 1, y: 2,
+          'toText': function() {
+              return "x = " + this.x +
+                  "; y = " + this.y;
+          },
+          'move': function(right, down) {
+              this.x += right;
+              this.y += down;
+          }
+      };
+
+      let str1 = p.toText();
+      //str1 is "x = 1; y = 2"
+
+      p.move(5, -1);
+      let str2 = p.toText();
+      //str2 is "x = 6; y = 1"`,
+    },
+    {
+      name: 'Structures (records) > Structure inside the structure',
+      code: `let rect  = {
+        point: {
+            x: 3, y: 4
+        },
+        size: {
+            width: 10,
+            height: 12
+        }
+    };
+
+    console.log("rect.point.x is",
+        rect.point.x);
+    console.log("rect.size.width is",
+        rect.size.width);`,
+    },
+    {
+      name: 'Structures (records) > Type members',
+      code: `//In Javascript there are no structures
+      function Setting() { }
+
+      //type fields
+      Setting.mode = 0;
+
+      //type method
+      Setting.setNextMode = function () {
+          Setting.mode = (Setting.mode + 1) % 3;
+      }
+
+      Setting.mode = 3;
+      Setting.setNextMode();
+      //Setting.Mode is 1
+
+      console.log("mode is", Setting.mode);`,
+    },
+    {
+      name: 'Universal (dynamic) types > Call type members',
+      code: `let d = "some string";
+      d = d.toUpperCase();
+      //d is "SOME STRING"
+
+      d = 3.14;
+      let s = d.toString();
+
+      s = d.tostring(); //<- RunTime error`,
+    },
+    {
+      name: 'Universal (dynamic) types > Initialization',
+      code: `//Initialized by any type
+      let d = "some string";
+      d = 3.14;
+      d = [2, 3, 5];
+      d = new Date();
+      `,
+    },
+    {
+      name: 'Universal (dynamic) types > Return value',
+      code: `function dynamicReturn(i)
+      {
+          switch (i) {
+              case 1:
+                  return 3.14;
+              case 2:
+                  return "any";
+              case 3:
+                  return true;
+              default:
+                  return null;
+          }
+      }
+
+      let pi = dynamicReturn(1);
+      //pi is 3.14
+      let s = dynamicReturn(2);
+      //s is "any"
+      let b = dynamicReturn(3);
+      //b is True`,
+    },
+    {
+      name: 'Work with files > Basic operations > Check if the file exists',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.txt";
+
+      //Asynchronously:
+      fs.exists(filePath, (exists) => {
+          if (exists) {
+              console.log("File exist!");
+          }
+      });
+
+      //Synchronously:
+      if (fs.existsSync(filePath)) {
+          console.log("File exist!");
+      }`,
+    },
+    {
+      name: 'Work with files > Basic operations > Copy a directory',
+      code: `//using Node.js
+      //npm i @types/node
+      //npm install fs-extra
+      const fse = require('fs-extra');
+
+      let path = './data';
+      let pathCopy = './data_copy';
+
+      try {
+          fse.copySync(path, pathCopy,
+              { overwrite: true });
+          console.log('Directory copied successfully!');
+      } catch(e) {
+          console.log('ErrorSync:', e.stack);
+      }`,
+    },
+    {
+      name: 'Work with files > Basic operations > Create a directory',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let path = './data';
+      //Asynchronously:
+      fs.mkdir(path, (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log('successfully created!');
+      });
+
+      //Synchronously:
+      if (!fs.existsSync(path)){
+          fs.mkdirSync(path);
+      }`,
+    },
+    {
+      name: 'Work with files > Basic operations > Delete a directory',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let path = './data';
+
+      //Asynchronously:
+      fs.rmdir(path, (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log('successfully deleted!');
+      });
+
+      //Synchronously:
+      if (fs.existsSync(path)){
+          fs.rmdirSync(path, { recursive: false });
+      }`,
+    },
+    {
+      name: 'Work with files > Basic operations > Delete a directory with data',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+      let path = './data';
+
+      //Synchronously:
+      if (fs.existsSync(path)){
+          fs.rmdirSync(path, { recursive: true });
+          console.log('successfully deleted!');
+      }`,
+    },
+    {
+      name: 'Work with files > Basic operations > Delete a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require('fs');
+
+      let filePath = "file.txt";
+
+      fs.unlink(filePath, (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+              console.log('Deleted!');
+      });`,
+    },
+    {
+      name: 'Work with files > Basic operations > File copying',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require('fs');
+
+      let filePath = "file.txt";
+      let filePathTo = "file_copy.txt";
+
+      fs.copyFile(filePath, filePathTo, (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+              console.log('File copied!');
+      });`,
+    },
+    {
+      name: 'Work with files > Basic operations > File moving',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.txt";
+      let newFilePath = "file_new.txt";
+
+      //Asynchronously:
+      fs.rename(filePath, newFilePath, (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log('File moved!');
+      });
+
+      //Synchronously:
+      try {
+          fs.renameSync(filePath, newFilePath);
+          console.log('File moved successfully!');
+      } catch(e) {
+          console.log('ErrorSync:', e.stack);
+      }`,
+    },
+    {
+      name: 'Work with files > Basic operations > Get the working directory',
+      code: `//__filename is the file name of the current module
+      //__dirname is the directory name of the current module
+      console.log(__filename);
+      console.log(__dirname);`,
+    },
+    {
+      name: 'Work with files > Basic operations > Getting file properties',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+      const path = require("path");
+
+      let filePath = "file.txt";
+
+      let stats = fs.statSync(filePath);
+      //file size
+      let fileSize = stats.size;
+
+      //file modification date
+      let dateChanges = stats.mtime;
+
+      //file creation date
+      let creationDate = stats.birthtime;
+
+      //can read, write, and execute
+      let canRWE = (stats.mode &amp;&amp; fs.constants.S_IRWXU) ===
+          fs.constants.S_IRWXU;
+
+      //file extension
+      let extension = path.extname(filePath);
+
+      //file name
+      let fileName = path.basename(filePath);
+
+      //file name without extension
+      let fileNameOnly = path.basename(filePath, extension);
+
+      //file directory
+      let fileDir = path.dirname(filePath);
+
+      console.log("fileSize is", fileSize, "bytes");
+      console.log("dateChanges is", dateChanges);
+      console.log("creationDate is", creationDate);
+      console.log("canRWE is", canRWE);
+      console.log("extension is", extension);
+      console.log("fileName is", fileName);
+      console.log("fileNameOnly is", fileNameOnly);
+      console.log("fileDir is", fileDir);`,
+    },
+    {
+      name: 'Work with files > Basic operations > List of files in the directory',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let dir = __dirname;
+
+      //Asynchronously:
+      fs.readdir(dir, (err, files) => {
+          if (err)
+              throw err;
+          files.forEach(file => {
+              console.log(file);
+          })
+      });
+
+      //Synchronously:
+      fs.readdirSync(dir).forEach(file => {
+          console.log(file);
+      });`,
+    },
+    {
+      name: 'Work with files > Binary files > Read array from a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.out";
+
+      //Asynchronously:
+      fs.readFile(filePath, (err, data) => {
+          if (err)
+              console.log("Error:", err);
+          else {
+              let numbers = new Int32Array(data.buffer);
+              console.log("numbers is", numbers);
+          }
+      });`,
+    },
+    {
+      name: 'Work with files > Binary files > Read dictionary from a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.out";
+
+      let data = fs.readFileSync(
+          filePath, 'utf8');
+
+      let map = JSON.parse(data);
+      console.log("map is", map);`,
+    },
+    {
+      name: 'Work with files > Binary files > Reading a binary file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.out";
+
+      //Asynchronously:
+      fs.readFile(filePath, (err, data) => {
+          if (err)
+              console.log("Error:", err);
+          else {
+              console.log("data is", data);
+              let bytes = Uint8Array.from(data);
+              console.log("bytes is", bytes);
+          }
+      });`,
+    },
+    {
+      name: 'Work with files > Binary files > Write array to a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let numbers = [1, 2, -3];
+
+      let data = Int32Array.from(numbers);
+      console.log("data is", data);
+      let filePath = "file.out";
+
+      //Asynchronously:
+      fs.writeFile(filePath, data, (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log('Data written to file!');
+      })
+
+      //Synchronously:
+      fs.writeFileSync(filePath, data);`,
+    },
+    {
+      name: 'Work with files > Binary files > Write dictionary to a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.out";
+
+      let map = new Map([
+          [ 1, "one" ],
+          [ 2, "two" ]
+      ]);
+
+      let date = JSON.stringify([...map]);
+      fs.writeFileSync(filePath,
+          date, 'utf-8') ;`,
+    },
+    {
+      name: 'Work with files > Binary files > Writing a binary file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let data = Uint8Array.from([120, 64, 97]);
+      let filePath = "file.out";
+
+      //Asynchronously:
+      fs.writeFile(filePath, data, (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log('Data written to file!');
+      })
+
+      //Synchronously:
+      fs.writeFileSync(filePath, data);`,
+    },
+    {
+      name: 'Work with files > Text files > Append text to a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.txt";
+
+      //Asynchronously:
+      fs.appendFile(filePath,
+          '\nLine 4', function(err) {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log('Appended!');
+      });
+
+      //Synchronously:
+      try {
+          fs.appendFileSync(filePath, '\nLine 3');
+          console.log("Text added successfully!");
+      } catch(e) {
+          console.log('Error:', e.stack);
+      }`,
+    },
+    {
+      name: 'Work with files > Text files > Read file line by line',
+      code: `//using Node.js
+      //npm i @types/node
+
+      const fs = require('fs');
+      const readline = require('readline');
+
+      let filePath = "file.txt";
+
+      let lineReader = readline
+          .createInterface({
+          input: fs.createReadStream(filePath)
+      });
+
+      lineReader.on('line', (line) => {
+          console.log('Line from file:', line);
+      });`,
+    },
+    {
+      name: 'Work with files > Text files > Read from a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.txt";
+
+      //Asynchronously:
+      fs.readFile(filePath,
+          'utf8', function(err, text) {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log(text);
+      });
+
+      //Synchronously:
+      try {
+          let data = fs.readFileSync(
+              filePath, 'utf8');
+          console.log(data.toString());
+      } catch(e) {
+          console.log('Error:', e.stack);
+      }`,
+    },
+    {
+      name: 'Work with files > Text files > Write to a file',
+      code: `//using Node.js
+      //npm i @types/node
+      const fs = require("fs");
+
+      let filePath = "file.txt";
+
+      //Asynchronously:
+      fs.writeFile(filePath,
+          "Line 1\nLine 2", (err) => {
+          if (err)
+              console.log("Error:", err);
+          else
+                  console.log('Text written to file!');
+      });
+
+      //Synchronously:
+      try {
+          fs.writeFileSync(filePath, "Line 1\nLine 2");
+          console.log("Successfully written!");
+      } catch(e) {
+          console.log('Error:', e.stack);
+      }`,
+    },
+    {
+      name: 'Work with files > XML files > Reading XML file',
+      code: `//XML example:
+      //<Lines>
+      //    <Line Id="1">one</Line>
+      //    <Line Id="2">two</Line>
+      //</Lines>
+
+      //using Node.js
+      //npm i @types/node
+      //npm install xml2js --save
+      const fs = require("fs");
+      const xml2js = require('xml2js');
+
+      const parser = new xml2js
+          .Parser({ attrkey: "ATTR" });
+
+      // this example reads the file synchronously
+      // you can read it asynchronously also
+      let xml_string = fs
+          .readFileSync("data/data.xml", "utf8");
+
+      parser.parseString(xml_string, (err, result) => {
+          if (err)
+              console.log("Error:", err);
+          else {
+              console.log("line 1 value:",
+                  result.Lines.Line[0]._);
+              console.log("line 2 Id:",
+                  result.Lines.Line[1].ATTR.Id);
+          }
+      });`,
+    },
+    {
+      name: 'Work with simple types > Boolean > Conversion from a string',
+      code: `let str1 = "true";
+      let value1 = (str1.toLowerCase() == "true");
+      //value1 is true
+
+      let str2 = "false";
+      let value2 = JSON.parse(str2);
+      //value1 is false`,
+    },
+    {
+      name: 'Work with simple types > Boolean > Conversion to a string',
+      code: `let sunIsStar = true;
+      let str1 = sunIsStar.toString();
+      //str1 is "true"
+
+      let earthIsStar = false;
+      let str2 = earthIsStar.toString();
+      //str2 is "false"`,
+    },
+    {
+      name: 'Work with simple types > Boolean > Getting values',
+      code: `let name = "Alex";
+      let nameExists = name.length > 0;
+      //name exists is true
+
+      let number = 7;
+      let isTen = number === 10;
+      //isTen is false`,
+    },
+    {
+      name: 'Work with simple types > Boolean > Logical operations',
+      code: `let value1 = true;
+      let value2 = false;
+
+      let valueNot1 = !value1;
+      //valueNot1 is false
+
+      let valueNot2 = !value2;
+      //valueNot2 is true
+
+      let valueAnd = value1 &amp;&amp; value2;
+      //valueAnd is false
+
+      let valueOr = value1 || value2;
+      //valueOr is true
+
+      let valueXor = value1 ^ value2;
+      //valueXor is 1`,
+    },
+    {
+      name: 'Work with simple types > Character type > Converting to a number and back',
+      code: `//In JavaScript there are no char
+      //type, only string
+      let charA = 'A';
+      let intValue = charA.charCodeAt(0);
+      //intValue is 65
+
+      intValue++;
+      let charB = String.fromCharCode(intValue);
+      //charB is 'B'
+    `,
+    },
+    {
+      name: 'Work with simple types > Character type > Converting to a string',
+      code: `//In JavaScript there are no char
+      //type, only string
+      let charA = 'A';
+
+      let str = "character " + charA;
+      //str is "character A"
+   `,
+    },
+    {
+      name: 'Work with simple types > Character type > Escape characters',
+      code: `// \' for a single quote.
+      let c1 = '\'';
+
+      // \" for a double quote.
+      let c2 = '\"';
+
+      // \\ for a backslash.
+      let c3 = '\\';
+
+      // \0 for a null character.
+      let c4 = '\0';
+
+      // \b for a backspace.
+      let c5 = '\b';
+
+      // \n for a new line.
+      let c6 = '\n';
+
+      // \r for a carriage return.
+      let c7 = '\r';
+
+      // \t for a horizontal tab.
+      let c8 = '\t';
+
+      // \v for a vertical tab.
+      let c9 = '\v';
+
+      //  for a unicode character hex value.
+      let c10 = '\x41'; // Symbol A
+
+      console.log("c1 = \"" + c1 + "\".");
+      console.log("c2 = \"" + c2 + "\".");
+      console.log("c3 = \"" + c3 + "\".");
+      console.log("c4 = \"" + c4 + "\".");
+      console.log("c5 = \"" + c5 + "\".");
+      console.log("c6 = \"" + c6 + "\".");
+      console.log("c7 = \"" + c7 + "\".");
+      console.log("c8 = \"" + c8 + "\".");
+      console.log("c9 = \"" + c9 + "\".");
+      console.log("c10 = \"" + c10 + "\".");`,
+    },
+    {
+      name: 'Work with simple types > Character type > Getting from a string',
+      code: `//In JavaScript there are no char
+      //type, only string
+      let str = "ABC";
+      let charA = str.charAt(0);
+      //charA is 'A'
+      let charB = str.charAt(1);
+      //charB is 'B'
+      let charC = str.charAt(2);
+      //charC is 'C'
+
+      let charList = "";
+      str.split("").forEach(function(c) {
+          charList += c + ";";
+      });
+      //charList is "A;B;C;"`,
+    },
+    {
+      name: 'Work with simple types > Date and time > Comparasion of dates',
+      code: `let now = new Date();
+
+      let yesterday = new Date();
+      yesterday.setDate(now.getDate() - 1);
+
+      let areEqual = now === yesterday;
+      //areEqual is false
+
+      let areLater = now > yesterday;
+      //areLater is true
+
+      let areEarlier = now < yesterday;
+      //areEarlier is false`,
+    },
+    {
+      name: 'Work with simple types > Date and time > Conversion from a string',
+      code: `let stringDt = "1945-05-09 01:00";
+      stringDt = stringDt.replace(" ", "T");
+      //stringDate is "1945-05-09T01:00"
+      let victoryDt = new Date(stringDt);
+      //victoryDt is ‎5‎/‎9‎/‎1945‎ ‎1‎:‎00‎:‎00‎ ‎AM
+
+      //first method
+      let stringDate = "1945-05-09";
+      let victoryDate1 = new Date(stringDate);
+      //victoryDate1 is ‎5‎/‎9‎/‎1945‎ ‎12‎:‎00‎:‎00‎ ‎PM
+
+      //second method
+      //new Date(year, month [, day [, hours[, minutes[, seconds[, ms]]]]])
+      let parts = stringDate.split("-");
+      let victoryDate2 = new Date(
+          parts[0], parts[1] - 1, parts[2]);
+      //victoryDate2 is ‎5‎/‎9‎/‎1945‎ ‎12‎:‎00‎:‎00‎ ‎AM
+
+      console.log(victoryDt.toLocaleDateString("ru"));
+      console.log(victoryDate1.toLocaleDateString("en"));
+      console.log(victoryDate2.toLocaleDateString());`,
+    },
+    {
+      name: 'Work with simple types > Date and time > Converting to a string',
+      code: `let now = new Date();
+
+      let options = {
+          year: "2-digit",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "numeric",
+          minute: "2-digit"
+      };
+      let shortStyleEn = now
+          .toLocaleDateString("en-US", options);
+      //shortStyleEn is "‎‎05‎/‎24‎/‎18‎ ‎5‎:‎36‎ ‎PM"
+
+      options.hour = "2-digit";
+      let shortStyleRu = now
+          .toLocaleDateString("ru-Ru", options);
+      //shortStyleRu is "‎‎‎25‎.‎05‎.‎18‎ 0‎8‎:‎54"
+
+      let customStyle = now.toJSON().slice(0, 10);
+      //customStyle is 2018-05-24`,
+    },
+    {
+      name: 'Work with simple types > Date and time > Date changing',
+      code: `let now = new Date();
+
+      let yesterday = new Date();
+      yesterday.setDate(now.getDate() - 1);
+
+      let tomorrow = new Date(
+          now.getTime() + 24 * 60 * 60 * 1000);
+
+      let nextMonth = new Date();
+      nextMonth.setMonth(now.getMonth() + 1);
+
+      let nextYear = new Date();
+      nextYear.setYear(now.getFullYear() + 1);`,
+    },
+    {
+      name: 'Work with simple types > Date and time > Date initialization',
+      code: `let year = 1945;
+      let month = 5;
+      let day = 9;
+      let victoryDate = new Date(
+          year, month - 1, day);
+
+      console.log(victoryDate.toLocaleString("ru"));`,
+    },
+    {
+      name: 'Work with simple types > Date and time > Getting of the current date',
+      code: `let now = new Date();
+      console.log(now);`,
+    },
+    {
+      name: 'Work with simple types > Date and time > Getting of year , month , day',
+      code: `let now = new Date();
+      let year = now.getFullYear();
+      let month = now.getMonth() + 1;
+      let day = now.getDate();
+      let hour = now.getHours();
+      let minute = now.getMinutes();
+      let second = now.getSeconds();
+      let dayOfWeek = now.getDay();
+      `,
+    },
+    {
+      name: 'Work with simple types > Date and time > The interval between the dates',
+      code: `let victoryDate = new Date(1945, 4, 9);
+      let now = new Date();
+
+      let timeDiff = Math.abs(victoryDate - now);
+      let msPerDay = 1000 * 3600 * 24;
+      let days = Math.floor(timeDiff / msPerDay);
+      //days is 26680
+
+      let msPerMinute = 1000 * 60;
+      let minutes = Math.floor(timeDiff / msPerMinute);
+      //minutes is 38418424`,
+    },
+    {
+      name: 'Work with simple types > Nullable types > Checking of presence of a value',
+      code: `let n1 = 42;
+      let exists1 = n1 != null;
+      //exists1 is true
+
+      let n2 = null;
+      let exists2 = !!n2;
+      //exists2 is false
+
+      if (n1) {
+          //will evaluate to true if value is not:
+          //null
+          //undefined
+          //NaN
+          //empty string ("")
+          //0
+          //false
+          console.log("n1 defined");
+      }`,
+    },
+    {
+      name: 'Work with simple types > Nullable types > Initialization',
+      code: `let number = 42;
+      number = null;
+      let charA = null;
+      charA = "A";`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Double and Float > Arithmetic operations',
+      code: `let d1 = 8.5 + 2.4;        // d1 is 10.9
+      let d2 = 8.5 - 2.4;        // d2 is 6.1
+      let d3 = 8.5 * 2;          // d3 is 17.0
+      let d4 = 8.5 / 2;          // d4 is 4.25
+      // mod
+      let d5 = 7.5 % 2;          // d5 is 1.5
+      let d6 = -7.5 % 2;         // d6 is -1.5
+      // div
+      let d7 = (7.5 / 2) | 0;    // d7 is 3
+      let d8 = -d7;              // d8 is -3.0
+      let d9 = 3.5;
+      d9++;                      // d9 is 4.5
+      d9--;                      // d9 is 3.5
+      d9 += 1;                   // d9 is 4.5
+      d9 -= 1;                   // d9 is 3.5
+      let d10 = d9++;            // d10 is 3.5, d9 is 4.5
+      let d11 = ++d9;            // d11 is 5.5, d9 is 5.5
+      let d12 = Math.abs(-5.5);  // d12 is 5.5
+
+      console.log("d1 =", d1);
+      console.log("d2 =", d2);
+      console.log("d3 =", d3);
+      console.log("d4 =", d4);
+      console.log("d5 =", d5);
+      console.log("d6 =", d6);
+      console.log("d7 =", d7);
+      console.log("d8 =", d8);
+      console.log("d9 =", d9);
+      console.log("d10 =", d10);
+      console.log("d11 =", d11);
+      console.log("d12 =", d12);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Double and Float > Conversion from a string',
+      code: `//the first method
+      let strPi = "3.14";
+      let piFloat = parseFloat(strPi);
+
+      //the second method
+      let strExp = "2.71828";
+      let exp = +strExp;
+
+      //the third method
+      let strHalf = "0,5";
+      let half = +strHalf.replace(",", ".");
+
+      console.log("piFloat =", piFloat);
+      console.log("exp =", exp);
+      console.log("half =", half);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Double and Float > Conversion to a string',
+      code: `let exp = 2.718281828;
+
+      let s1 = exp.toString();
+      //s1 is 2.718281828
+
+      let s2 = exp.toFixed(3).toString();
+      //s2 is 2,718
+
+      let nf = new Intl.NumberFormat('ru-Ru',
+          { maximumFractionDigits: 2 });
+      let s3 = nf.format(exp * 1000000);
+      //s3 is 2 718 281,83
+
+      console.log("s1 =", s1);
+      console.log("s2 =", s2);
+      console.log("s3 =", s3);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Double and Float > Converting to integer',
+      code: `let pi = 3.1415926535;
+      let intValue = pi | 0;
+      //intValue is 3`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Double and Float > Getting random values',
+      code: `let random = Math.random();
+      //random double between 0.0 and 1.0`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Integer > Rounding and truncating',
+      code: `let pi = 3.1415;
+      let piRound1 = Math.round(pi * 1000) / 1000;
+      //piRound1 is 3.142
+      let piRound2 = pi.toFixed(3);
+      //piRound2 is 3.142
+
+      let piTrunc = Math.floor(pi * 1000) / 1000;
+      //piTrunc is 3.141
+
+      let piCeil = Math.ceil(pi * 100) / 100;
+      //piCeil is 3.15
+
+      console.log("piRound1 =", piRound1);
+      console.log("piRound2 =", piRound2);
+      console.log("piTrunc =", piTrunc);
+      console.log("piCeil =", piCeil);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Integer > Arithmetic operations',
+      code: `let d1 = 8 + 2; //d1 is 10
+      let d2 = 8 - 2; //d2 is 6
+      let d3 = 8 * 2; //d3 is 16
+      let d4 = 8 / 2; //d4 is 4
+      let d5 = 5 % 2; //d5 is 1
+      let d6 = -5 % 2; //d6 is -1
+      let d7 = 1;
+      d7++; //d7 is 2
+      d7--; //d7 is 1
+      let d8 = d7++; //d8 is 1, d7 is 2
+      let d9 = ++d7; //d9 is 3, d7 is 3
+
+      console.log("d1 =", d1);
+      console.log("d2 =", d2);
+      console.log("d3 =", d3);
+      console.log("d4 =", d4);
+      console.log("d5 =", d5);
+      console.log("d6 =", d6);
+      console.log("d7 =", d7);
+      console.log("d8 =", d8);
+      console.log("d9 =", d9);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Integer > BigInteger',
+      code: `//maximum safe int value is 2^53
+      let a = 9223372036854775807;
+      // a is 9 223 372 036 854 776 000
+
+      let b = 255;
+      let c = 1000;
+
+      let a1 = a * c;
+      // a1 is 9.223372036854776e+21
+
+      let a2 = (a1 + c) / b;
+      // a2 is 36170086419038335000
+
+      //ECMAScript 6 feature
+      //Support: TC39: Stage 3, Node: 10.4+, Chrome: 67+, Firefox: 68+
+      let bigI = BigInt( 9007199254740991 );
+      console.log( large ); // 9007199254740991n
+
+      let A = 9_007_199_254_740_991n;
+
+      let B = A + 10n;
+      //B is 9_007_199_254_741+001
+
+      console.log("a1 =", a1);
+      console.log("a2 =", a2);
+      console.log("B =", B);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Integer > Bitwise operations',
+      code: `let a = 5; //0101
+      let b = 6; //0110
+
+      //And
+      let c1 = a &amp; b;
+      //c1 is 4 (0100)
+
+      //Or
+      let c2 = a | b;
+      //c2 is 7 (0111)
+
+      //Xor
+      let c3 = a ^ b;
+      //c3 is 3 (0011)
+
+      //shift right
+      let c4 = a >> 1;
+      //c4 is 2 (0010)
+
+      //shift left
+      let c5 = b << 1;
+      //c5 is 12 (1100)
+
+      //bits invertion
+      let c6 = ~b;
+      //c6 is -7 (-111)
+
+      console.log("c1 =", c1);
+      console.log("c2 =", c2);
+      console.log("c3 =", c3);
+      console.log("c4 =", c4);
+      console.log("c5 =", c5);
+      console.log("c6 =", c6);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Integer > Conversion from a string',
+      code: `let strNumber = "42";
+      let number1 = Number(strNumber);
+      //number1 is 42
+
+      let number2 = parseInt(strNumber);
+      //number2 is 42
+
+      let number3 = +strNumber;
+      //number3 is 42
+`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Integer > Converting to a string',
+      code: `let number = 42;
+      let s1 = number.toString();
+      //s1 is "42"
+
+      let s2 = "" + number;
+      //s2 id "42"
+
+      let s3 = ("00" + number).slice(-3);
+      //s3 is "042"`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Integer > Getting random values',
+      code: `function getRandomInt(min, max) {
+        return Math.floor(
+            Math.random() * (max - min + 1)) + min;
+    }
+
+    let random = getRandomInt(0, 2);
+    //random is 0, 1 or 2    `,
+    },
+    {
+      name: 'Work with simple types > Numbers > Mathematical operations > Numeral System',
+      code: `//decimal number system
+      let decimal = 42;
+
+      //octal number system
+      let octal = 042;
+      //octal is 34
+
+      //hexadecimal number system
+      let hexadecimal = 0x42;
+      //hexadecimal is 66
+
+      //binary number system
+      let binary = 0b1010;
+      //binary is 10
+
+      //42 to decimal string
+      let sDecimal = decimal.toString();
+      //sDecimal is "42"
+
+      //42 to octal string
+      let sOctal = decimal.toString(8);
+      //sOctal is "52"
+
+      //42 to hexadecimal string
+      let sHexadecimal = decimal.toString(16);
+      //sHexadecimal is "2a"
+
+      //42 to binary string
+      let sBinary = decimal.toString(2);
+      //sBinary is "101010"
+
+      console.log("octal =", octal);
+      console.log("hexadecimal =", hexadecimal);
+      console.log("binary =", binary);
+      console.log("sDecimal =", sDecimal);
+      console.log("sOctal =", sOctal);
+      console.log("sHexadecimal =", sHexadecimal);
+      console.log("sBinary =", sBinary);`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Mathematical operations > Decimal logarithm',
+      code: `let number = 1000;
+      let result = Math.log10(number);
+      //result is 3`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Mathematical operations > Exponentiation',
+      code: `let number = 8;
+      let power = 3;
+      let result = Math.pow(number, power);
+      //result is 512.0`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Mathematical operations > Logarithm',
+      code: `let number = 512;
+      let logBase = 8;
+      let result = Math.log(number) / Math.log(logBase);
+      //result is 3`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Mathematical operations > Sine , cosine and tangent',
+      code: `let sin90 = Math.sin(Math.PI/2);
+      //sin90 is 1
+
+      let cos180 = Math.cos(Math.PI);
+      //cos180 is -1
+
+      let tan45 = Math.tan(Math.PI/4);
+      //tan45 is 0.9999999999999999`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Mathematical operations > Square root',
+      code: `let number = 100;
+      let result = Math.sqrt(number);
+      //result is 10`,
+    },
+    {
+      name: 'Work with simple types > Numbers > Mathematical operations > min and max values',
+      code: `let minValue = Math.min(2, 1, 3);
+      //minValue is 1
+
+      let maxValue = Math.max(2, 1, 3);
+      //maxValue is 3`,
+    },
+    {
+      name: 'Work with simple types > Strings > Change the case of characters',
+      code: `let str = "Lower and upper";
+
+      let lower = str.toLowerCase();
+      //lower is "lower and upper"
+
+      let upper = str.toUpperCase();
+      //upper is "LOWER AND UPPER"`,
+    },
+    {
+      name: 'Work with simple types > Strings > Character replacement',
+      code: `let str = "1-3-2";
+      let arStr = str.split("");
+      arStr[2] = '2';
+      arStr[4] = '3';
+      str = arStr.join("");
+      //str is "1-2-3"
+      `,
+    },
+    {
+      name: 'Work with simple types > Strings > Characters count',
+      code: `function Reverse(word) {
+        //Characters count
+        let charCount = word.length;
+        let result = "";
+        for (let i = charCount - 1; i >= 0; i--)
+        {
+            result += word[i];
+        }
+        return result;
+    }
+
+    let stringReverse = Reverse("string");
+    //stringReverse = "gnirts"
+
+    console.log(stringReverse);`,
+    },
+    {
+      name: 'Work with simple types > Strings > Converting to a number',
+      code: `//to int
+      let strNumber = "42";
+      //the first method
+      let number = Number(strNumber);
+      //the second method
+      number = parseInt(strNumber);
+
+      //to Double and Float
+      //the first method
+      let strPi = "3.14";
+      let pi = parseFloat(strPi);
+
+      //the second method
+      let strExp = "2.71828";
+      let exp = +strExp;
+
+      //the third method
+      let strHalf = "0,5";
+      let half = +strHalf.replace(",", ".");
+
+      console.log("number =", number);
+      console.log("pi =", pi);
+      console.log("exp =", exp);
+      console.log("half =", half);`,
+    },
+    {
+      name: 'Work with simple types > Strings > Empty strings',
+      code: `//Empty strings
+      let someEmptyString = "";
+      let anotherEmptyString = '';
+
+      if (!anotherEmptyString) {
+          console.log("string is empty");
+      }`,
+    },
+    {
+      name: 'Work with simple types > Strings > Escaping characters',
+      code: `// \t Insert a tab.
+      // \b Insert a backspace.
+      // \n Insert a newline.
+      // \r Insert a carriage return.
+      // \' or ' Insert a single quote.
+      // \" Insert a double quote.
+      // \\ Insert a backslash character.
+
+      let str = "She said \"Hello!\" to me.";
+      //str is "She said "Hello!" to me."`,
+    },
+    {
+      name: 'Work with simple types > Strings > Getting substring',
+      code: `let str = "one way ticket";
+      let way = str.substring(4, 7);
+      //way is "way"
+      `,
+    },
+    {
+      name: 'Work with simple types > Strings > Iterating over a string',
+      code: `et str = "level";
+
+      for (let c of str) {
+          console.log(c);
+      }
+
+      //Iterating with index
+      for (let i = 0; i < str.length; i++) {
+          console.log(str[i]);
+      }`,
+    },
+    {
+      name: 'Work with simple types > Strings > Removing spaces',
+      code: `let str = "  Spaces  ";
+
+      let trimStr = str.trim();
+      //trimStr is "Spaces"
+
+      console.log("\"" + trimStr + "\"");`,
+    },
+    {
+      name: 'Work with simple types > Strings > Replace multiple characters',
+      code: `let str = "1-/[=2=/]-3";
+      let separators = /[=/\\[]|]/;
+      let arStr = str.split(separators);
+      str = arStr.join("");
+      //str is "1-2-3"
+      `,
+    },
+    {
+      name: 'Work with simple types > Strings > Split into an array',
+      code: `let strData = "1981|Kim Victorya|engineer";
+      let arrData = strData.split("|");
+      let year = parseInt(arrData[0]);
+      //year is 1981
+      let fullName = arrData[1];
+      //name is "Kim Victorya"
+      let position = arrData[2];
+      //position is "engineer"`,
+    },
+    {
+      name: 'Work with simple types > Strings > Strings comparison',
+      code: `let first = "A";
+      let second = "B";
+      let third = 'A';
+
+      let areEqual1 = first === second;
+      //areEqual1 is false
+
+      let areNotEqual = first !== second;
+      //areNotEqual is true
+
+      let areEqual2 = first.localeCompare(third) === 0;
+      //areEqual2 is true
+
+      let moreThan = first.localeCompare(second) > 0;
+      //moreThan is False`,
+    },
+    {
+      name: 'Work with simple types > Strings > Strings concatenating',
+      code: `let s1 = "three";
+      let s2 = "two";
+      let s3 = s1 + ", " + s2;
+      s3 += ", one";
+      let sGo = s3.concat(", ", "go!");
+      //sGo is "three, two, one, go!"`,
+    },
+    {
+      name: 'Work with simple types > Strings > String list concatenating',
+      code: `let numbers =  ["one", "two", "three"];
+      let numberList = numbers.join("; ");
+      //numberList is "one; two; three"
+
+      console.log(numberList);`,
+    },
+    {
+      name: 'Work with simple types > Strings > Substring index',
+      code: `let dataString = "Substring index";
+      let index = dataString.indexOf("string");
+      // index is 3`,
+    },
+    {
+      name: 'Work with simple types > Strings > Substring inserting',
+      code: `String.prototype.insert = function (index, string) {
+        return this.slice(0, index) +
+            string + this.slice(index);
+    };
+
+    let dataString = "string";
+
+    dataString = dataString.insert(0, "Sub");
+    //dataString is "Substring"
+    console.log(dataString);
+
+    dataString = dataString.insert(9, "!");
+    //dataString is "Substring!"
+    console.log(dataString);
+
+    dataString = dataString.insert(9, " inserting");
+    //dataString is "Substring inserting!"
+    console.log(dataString);`,
+    },
+    {
+      name: 'Work with simple types > Strings > Substring removing',
+      code: `let dataString = "Substring removing!";
+
+      //there is no "remove" method
+      dataString = dataString.slice(0, 9) +
+          dataString.slice(18);
+      //dataString is "Substring!"
+      console.log(dataString);
+
+      dataString = dataString.slice(3);
+      //dataString is "string!"
+      console.log(dataString);`,
+    },
+    {
+      name: 'Work with simple types > Strings > Substring replacement',
+      code: `let startString = "3, 2, 1, go!";
+      startString = startString
+          .replace("1", "one")
+          .replace("2", "two")
+          .replace("3", "three");
+      //startString = "three, two, one, go!"
+      console.log(startString);
+
+      //replace all
+      let oneString = "1 1 1";
+      oneString = oneString
+          .replace(new RegExp("1", "g"), "one");
+      //oneString is "one one one"
+      console.log(oneString);`,
+    },
+    {
+      name: 'Work with simple types > Strings > Substring searching',
+      code: `let dataString = "Substring search";
+      if (dataString.includes("string")) {
+          console.log("dataString contain \"string\"");
+      }
+      if (dataString.indexOf("Sub") === 0) {
+          console.log("dataString starts with \"Sub\"");
+      }
+      let search = "search";
+      if (dataString.indexOf(search) === dataString.length - search.length) {
+          console.log("dataString ends with \"search\"");
+      }`,
+    },
+    {
+      name: 'Work with simple types > Tuple ',
+      code: `//In JavaScript there are no
+      //tuple type
+      let one = [1, "one"];
+      let numberOne = one[0];
+      // numberOne is 1
+      let nameOne = one[1];
+      // nameOne is "one"
+
+      let two = { number: 2, name: "two" };
+      let numberTwo = two.number;
+      // numberTwo is 2
+      let nameTwo = two.name;
+      // nameTwo is "two"`,
+    },
   ];
 
   constructor() {}
