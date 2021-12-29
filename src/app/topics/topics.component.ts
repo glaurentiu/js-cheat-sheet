@@ -7003,7 +7003,7 @@ export class TopicsComponent implements OnInit {
       let creationDate = stats.birthtime;
 
       //can read, write, and execute
-      let canRWE = (stats.mode &amp;&amp; fs.constants.S_IRWXU) ===
+      let canRWE = (stats.mode && fs.constants.S_IRWXU) ===
           fs.constants.S_IRWXU;
 
       //file extension
@@ -7329,7 +7329,7 @@ export class TopicsComponent implements OnInit {
       let valueNot2 = !value2;
       //valueNot2 is true
 
-      let valueAnd = value1 &amp;&amp; value2;
+      let valueAnd = value1 && value2;
       //valueAnd is false
 
       let valueOr = value1 || value2;
@@ -7730,7 +7730,7 @@ export class TopicsComponent implements OnInit {
       let b = 6; //0110
 
       //And
-      let c1 = a &amp; b;
+      let c1 = a && b;
       //c1 is 4 (0100)
 
       //Or
